@@ -6,7 +6,7 @@
 #    By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/18 18:52:53 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/20 09:04:46 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/20 09:16:32 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,15 +30,18 @@ CC					:=		gcc
 ASM					:=		nasm
 AR					:=		ar rcs
 
-# Flags - compilation
+# Flags - compilation Assembly
 ifeq ($(UNAME), Linux)
-	FLAG_ASM_VERSION	:=	-f elf64
+	FLAG_COMP_ASM	:=	-f elf64
 else
-	FLAG_ASM_VERSION	:=	-f machos64
+	FLAG_COMP_ASM	:=	-f macho64
+endif
+
+# Flags - compilation C
 FLAG_WARNING		:=		-Wall -Wextra -Werror
 FLAG_INC			:= 		$(addprefix -I, $(INC_DIRS))
 FLAG_DEBUG			:= 		-g
-FLAGS_COMP			:= 		$(FLAG_WARNING) $(FLAG_INC) $(FLAG_DEBUG) $(FLAG_ASM_VERSION)
+FLAGS_COMP_C		:= 		$(FLAG_WARNING) $(FLAG_INC) $(FLAG_DEBUG)
 
 # Flags - memory leak check
 FLAG_MEM_LEAK		:= 		-fsanitize=address
@@ -65,7 +68,7 @@ $(NAME):					$(OBJS)
 
 $(PATH_BUILD)/%.o:			%.s
 							mkdir -p $(dir $@)
-							$(ASM) $(FLAGS_COMP) $<
+							$(ASM) $(FLAGS_COMP_ASM) $< -o $@
 
 clean:
 							@ $(RM) $(PATH_BUILD)
@@ -77,3 +80,8 @@ fclean:						clean
 re:							fclean all
 
 .PHONY:						all clean fclean re
+
+-include $(DEPS)
+
+# Source for some pieces of this Makefile: 
+# https://makefiletutorial.com/#makefile-cookbook
