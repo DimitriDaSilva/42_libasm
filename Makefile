@@ -6,7 +6,7 @@
 #    By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/18 18:52:53 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/20 10:42:42 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/20 11:17:50 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,10 +60,10 @@ _SUCCESS			:=		[$(_GREEN)SUCCESS$(_RESET)]
 
 # General functions
 all:						init $(NAME)
-							@ echo "$(_SUCCESS) Compilation done"
+							@ printf "$(_SUCCESS) Compilation done\n"
 
 init:
-							@ echo "$(_INFO) Initialize $(NAME)"
+							@ printf "$(_INFO) Initialize $(NAME)\n"
 
 $(NAME):					$(OBJS)
 							@ $(AR) $(NAME) $(OBJS)
@@ -77,7 +77,7 @@ $(PATH_BUILD)/%.o:			%.s
 
 clean:
 							@ $(RM) $(PATH_BUILD)
-							@ echo "$(_INFO) Deleted files and directory"
+							@ printf "$(_INFO) Deleted files and directory\n"
 
 fclean:						clean
 							@ $(RM) $(NAME)
