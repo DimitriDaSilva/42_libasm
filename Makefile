@@ -6,7 +6,7 @@
 #    By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/18 18:52:53 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/20 09:16:32 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/20 10:42:42 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,10 @@ PATH_SRC			:=		src
 PATH_BUILD			:=		build
 
 # List of sources
-SRCS				:=		$(shell find $(PATH_SRC) -name *.s)
+SRCS				:=		$(filter-out *_bonus.s, $(shell find $(PATH_SRC) -name *.s))
+SRCS_BONUS			:=		$(shell find $(PATH_SRC) -name *_bonus.s)
 OBJS				:=		$(SRCS:%.s=$(PATH_BUILD)/%.o)
+OBJS_BONUS			:=		$(SRCS_BONUS:%.s=$(PATH_BUILD)/%.o)
 INC_DIRS			:=		$(shell find $(PATH_SRC) -type d)
 
 # Dectect OS
@@ -64,11 +66,14 @@ init:
 							@ echo "$(_INFO) Initialize $(NAME)"
 
 $(NAME):					$(OBJS)
-							$(AR) $(NAME) $(OBJS)
+							@ $(AR) $(NAME) $(OBJS)
+
+bonus:						$(OBJS) $(OBJS_BONUS)
+							@ $(AR) $(NAME) $(OBJS) $(OBJS_BONUS)
 
 $(PATH_BUILD)/%.o:			%.s
-							mkdir -p $(dir $@)
-							$(ASM) $(FLAGS_COMP_ASM) $< -o $@
+							@ mkdir -p $(dir $@)
+							@ $(ASM) $(FLAGS_COMP_ASM) $< -o $@
 
 clean:
 							@ $(RM) $(PATH_BUILD)
@@ -81,7 +86,7 @@ re:							fclean all
 
 .PHONY:						all clean fclean re
 
--include $(DEPS)
-
-# Source for some pieces of this Makefile: 
-# https://makefiletutorial.com/#makefile-cookbook
+test:						$(NAME)
+							@ $(CC) $(FLAGS_COMP_C) -L. -lasm main.c
+							@ ./a.out
+							@ $(RM) a.out
