@@ -6,7 +6,7 @@
 #    By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/18 18:52:53 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/20 17:30:15 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/21 16:45:52 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,19 +51,8 @@ FLAG_MEM_LEAK		:= 		-fsanitize=address
 # Others commands
 RM					:=		rm -rf
 
-# Color Code and template code
-_YELLOW				:=		\e[38;5;184m
-_GREEN				:=		\e[38;5;46m
-_RESET				:=		\e[0m
-_INFO				:=		[$(_YELLOW)INFO$(_RESET)]
-_SUCCESS			:=		[$(_GREEN)SUCCESS$(_RESET)]
-
-# General functions
-all:						init $(NAME)
-							@ printf "$(_SUCCESS) Compilation done\n"
-
-init:
-							@ printf "$(_INFO) Initialize $(NAME)\n"
+# General rules
+all:						$(NAME)
 
 $(NAME):					$(OBJS)
 							@ $(AR) $(NAME) $(OBJS)
@@ -77,20 +66,16 @@ $(PATH_BUILD)/%.o:			%.s
 
 clean:
 							@ $(RM) $(PATH_BUILD)
-							@ printf "$(_INFO) Deleted $(PATH_BUILD) directory\n"
 
 fclean:						clean
 							@ $(RM) $(NAME)
-							@ printf "$(_INFO) Deleted $(NAME) directory\n"
 
 re:							fclean all
 
 .PHONY:						all clean fclean re
 
-# Testing
-
+# Testing rules
 test:						$(NAME)
 							@ $(CC) $(FLAGS_COMP_C) -I$(PATH_INC) $(NAME) $(SRC_MAIN)
 							@ ./a.out
 							@ $(RM) a.out
-
