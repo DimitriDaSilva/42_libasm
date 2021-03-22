@@ -20,8 +20,8 @@ _start:
 	mov		ebx, 1		; fd arg. 1 = stdout
 	mov		ecx, msg	; buf arg. What to write
 	mov		edx, len	; count arg. The number of bytes to write
-	int 0x80			; system call
+	int		0x80		; system call
 	; Exit function
 	mov		eax, 1		; system call number of the exit function
 	mov		ebx, 0		; return value
-	int 0x80			; system call
+	int		0x80		; system call
