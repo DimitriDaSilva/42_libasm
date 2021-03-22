@@ -1,5 +1,9 @@
-; macOS doesn't allow absolute addressing unless we add this setting
-default rel
+; macOS doesn't allow absolute addressing.
+; This means that all memory addresses need to be Relative to the Instruction Pointer (RIP)
+; Two solutions:
+; - doing "lea rsi, [rel data_name]" instead of simply "mov rsi, data_name"
+; - adding "default rel" that implies that each time we use an address in a lea operation, we are talking about relative addresses
+default rel ; RIP-relative addressing by default
 
 global _start
 
@@ -17,7 +21,7 @@ _start:
 	; Write the string to the stdout
 	mov		rax, 0x2000004				; sys_write syscall
 	mov		rdi, 1						; write to stdout
-	mov		rsi, addr					; bytes to write
+	lea		rsi, [addr]					; bytes to write
 	mov		rdx, len					; nb of bytes to write
 	syscall
 	; Exit function
