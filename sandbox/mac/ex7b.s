@@ -5,7 +5,7 @@ global _start
 _start:
 	; What a call does:
 	; - push return location to stack, meaning:
-	;	* sub rsp, 4
+	;	* sub rsp, 8
 	; 	* mov [rsp], return_location
 	; - jump to func
 	; The push is useful because we need the original location to jump back
