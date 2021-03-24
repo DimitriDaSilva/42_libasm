@@ -1,2 +1,6 @@
 build/
 libasm.a
+tester_*/
+*.o
+*.swp
+*.a

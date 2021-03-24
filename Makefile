@@ -6,7 +6,7 @@
 #    By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/18 18:52:53 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/21 16:45:52 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/24 14:44:43 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,9 @@ AR					:=		ar -rcs
 
 # Flags - compilation Assembly
 ifeq ($(UNAME), Linux)
-	FLAG_COMP_ASM	:=	-f elf64
+	FLAGS_COMP_ASM	:=	-f elf64
 else
-	FLAG_COMP_ASM	:=	-f macho64
+	FLAGS_COMP_ASM	:=	-f macho64
 endif
 
 # Flags - compilation C
@@ -48,8 +48,9 @@ FLAGS_COMP_C		:= 		$(FLAG_WARNING) $(FLAG_DEBUG)
 # Flags - memory leak check
 FLAG_MEM_LEAK		:= 		-fsanitize=address
 
-# Others commands
+# Others
 RM					:=		rm -rf
+TEST				:=		test
 
 # General rules
 all:						$(NAME)
@@ -75,7 +76,8 @@ re:							fclean all
 .PHONY:						all clean fclean re
 
 # Testing rules
-test:						$(NAME)
-							@ $(CC) $(FLAGS_COMP_C) -I$(PATH_INC) $(NAME) $(SRC_MAIN)
-							@ ./a.out
-							@ $(RM) a.out
+$(TEST):					$(NAME)
+							@ $(CC) $(FLAGS_COMP_C) -I$(PATH_INC) $(NAME) $(SRC_MAIN) -o $(TEST)
+							@ ./$(TEST)
+							@ $(RM) $(TEST) $(TEST).dSYM
+
