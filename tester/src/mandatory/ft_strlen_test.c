@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libasm.h                                           :+:      :+:    :+:   */
+/*   test_ft_strlen.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/18 19:06:44 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/24 16:02:15 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/03/24 16:37:27 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/03/24 16:46:02 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBASM_H
-# define LIBASM_H
+#include "../main.h"
 
-# include <stdlib.h>
-
-size_t	ft_strlen(const char *str);
-
-#endif
+void	ft_strlen_test(void)
+{
+	print_header("ft_strlen");
+	test(ft_strlen("123") == strlen("123"));
+	test(ft_strlen("") == strlen(""));
+	test(ft_strlen("123") == strlen("123"));
+	test(ft_strlen(NULL) == strlen(NULL));
+}

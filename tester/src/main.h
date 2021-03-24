@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libasm.h                                           :+:      :+:    :+:   */
+/*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/18 19:06:44 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/24 16:02:15 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/03/24 16:01:14 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/03/24 16:57:24 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBASM_H
-# define LIBASM_H
+#ifndef MAIN_H
+# define MAIN_H
 
-# include <stdlib.h>
+# include <stdio.h>
+# include <string.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include "../includes/libasm.h"
+# include "./utils/utils.h"
+# include "./
 
-size_t	ft_strlen(const char *str);
+void	test_strlen(void);
+void	print_header(char *str);
 
 #endif
+
