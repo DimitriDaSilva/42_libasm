@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/16 17:11:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/25 13:42:44 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/03/25 13:03:06 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/03/25 13:58:27 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "utils.h"
 
-int	main(int argc, char *argv[])
+void	test(int answer)
 {
-	(void)argv;
-	(void)argc;
-
-	ft_strlen_test();
-
-	return (0);
+	if (answer)
+		printf("%s[OK]%s\n", GREEN, RESET);
+	else
+		printf("%s[KO]%s\n", RED, RESET);
 }
-
-
