@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 13:00:36 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/25 13:57:16 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/25 17:29:43 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@
 # include "main.h"
 
 void	print_header(char *str);
-void	test(int answer);
+void	check(int answer);
 
 #endif

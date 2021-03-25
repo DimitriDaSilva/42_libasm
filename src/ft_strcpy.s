@@ -10,8 +10,17 @@ _ft_strcpy:
 	mov		rbx, -1
 	call	cpy_chars
 
+	; Set return value reg to the dest pointer
+	mov		rax, rdi
+
 	; Epilogue
 	pop		rbx
 	ret
 	
-
+cpy_chars:
+	inc		rbx
+	mov		al, [rsi + rbx]
+	mov		[rdi + rbx], al
+	cmp		byte [rdi + rbx], 0x00
+	jne		cpy_chars
+	ret

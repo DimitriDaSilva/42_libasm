@@ -6,7 +6,7 @@
 #    By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/11 09:33:15 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/25 13:52:17 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/25 16:35:33 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,8 +69,8 @@ fclean:					clean
 re:						fclean all
 
 start:					
-						./$(NAME)
-						$(RM) $(NAME)
+						@ ./$(NAME)
+						@ $(RM) $(NAME)
 
 .PHONY:					all clean fclean re start
 

@@ -6,13 +6,13 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 13:03:06 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/25 13:58:27 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/25 17:29:09 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void	test(int answer)
+void	check(int answer)
 {
 	if (answer)
 		printf("%s[OK]%s\n", GREEN, RESET);
