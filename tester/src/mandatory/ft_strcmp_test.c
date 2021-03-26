@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   test_ft_strlen.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/24 16:01:14 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/26 08:36:06 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/03/24 16:37:27 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/03/26 09:30:09 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "main.h"
 
-# include <stdio.h>
-# include <string.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include "../../includes/libasm.h"
-# include "utils.h"
+static int	test(char *dest, char *src)
+{
+	int	ret_ft;
+	int	ret;
 
-void	ft_strlen_test(void);
-void	ft_strcpy_test(void);
-void	ft_strcmp_test(void);
+	ret_ft = ft_strcmp(dest, src);
+	ret = strcmp(dest, src);
 
-#endif
+	return (ret_ft == ret);
+}
+
+void	ft_strcmp_test(void)
+{
+	print_header("ft_strcmp");
+
+	check(test("Hello, world!", "Hello, world!"));
+	check(test("Hello, world!", "Hello world!"));
+}
