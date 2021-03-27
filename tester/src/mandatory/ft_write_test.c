@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:14:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 18:23:05 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:33:11 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ static int	test(int fd, const void *buf, size_t count, int exp_errno_val)
 	//	printf("Here\n");
 		check = 0;
 	}
+
+	// Reset errno to 0
+	errno = 0;
 
 	return (check);
 }
