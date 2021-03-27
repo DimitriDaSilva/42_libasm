@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:37:27 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 09:23:20 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/27 09:36:40 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static int	test(char *dest, char *src)
 
 	ret_ft = ft_strcmp(dest, src);
 	ret = strcmp(dest, src);
-	printf("ret_ft: %d\n", ret_ft);
-	printf("ret: %d\n", ret);
 
 	return (ret_ft == ret);
 }

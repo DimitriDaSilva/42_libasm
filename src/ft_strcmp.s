@@ -6,9 +6,6 @@ _ft_strcmp:
 	; Prologue
 	push	rbx
 
-	; Setting return all bytes of reg to 0 because we'll be working with al
-	xor		rax, rax
-
 	; Loop starts at -1 but gets incremented directly so it starts at 0
 	mov		rbx, -1
 	call	.cmp_chars
@@ -19,18 +16,19 @@ _ft_strcmp:
 	
 .cmp_chars:
 	inc		rbx
-	xor		rax, rax	; set rax to 0 before each loop
+
+	xor		rax, rax
+	xor		rcx, rcx
+	xor		r8, r8
+	xor		r9, r9
 	xor		r10, r10
-	xor		r11, r11
+
 	; Get the difference between the two into the al register (lower byte of rax)
-	mov		r10b, byte [rdi + rbx]
-	mov		r11b, byte [rsi + rbx]
+	mov		r8b, byte [rdi + rbx]
+	mov		r9b, byte [rsi + rbx]
 
-	mov		rax, r10
-	sub		rax, r11
-
-	xor		rcx, rcx	; Init to 0
-	xor		r8, r8		; Init to 0
+	mov		rax, r8
+	sub		rax, r9
 
 	; Value that will be moved if condition met
 	; Not possible to use cmove & all cmov variants with immediates
@@ -43,9 +41,9 @@ _ft_strcmp:
 	; Check if end of string. No need to check rsi because previous condition
 	; checks if both are equal
 	cmp		byte [rdi + rbx], 0
-	cmovnz	r8, rdx		; Move 1 into r8 if dest char is not NULL
+	cmovnz	r10, rdx	; Move 1 into r8 if dest char is not NULL
 	
-	and		rcx, r8		; Check if both conditions are met
+	and		rcx, r10	; Check if both conditions are met
 
 	cmp		rcx, 1
 	je		.cmp_chars
