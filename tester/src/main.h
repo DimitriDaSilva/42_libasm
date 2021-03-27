@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:01:14 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 18:30:29 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/27 19:22:17 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	ft_strcpy_test(void);
 void	ft_strcmp_test(void);
 void	ft_write_test(void);
 void	ft_read_test(void);
+void	ft_strdup_test(void);
 
 #endif

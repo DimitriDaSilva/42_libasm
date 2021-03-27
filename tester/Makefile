@@ -6,7 +6,7 @@
 #    By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/11 09:33:15 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/27 18:52:38 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/27 19:33:00 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ $(PATH_BUILD)/%.o:		%.c
 						@ $(CC) $(FLAGS_COMP) -c $< -o $@
 
 clean:
-						@ $(RM) -rf $(PATH_BUILD)
+						@ $(RM) $(PATH_BUILD)
 
 fclean:					clean
 						@ $(RM) $(NAME)
@@ -70,7 +70,7 @@ fclean:					clean
 re:						fclean all
 
 start:					
-						@ mkdir $(PATH_FILES)
+						@ mkdir -p $(PATH_FILES)
 						@ ./$(NAME)
 						@ $(RM) $(NAME)
 						@ $(RM) $(PATH_FILES)
