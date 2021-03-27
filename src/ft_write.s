@@ -8,13 +8,12 @@ _ft_write:
 	
 	mov		rax, 0x2000004
 	syscall
-	test	rax, rax
-	js		.error
+	jc		.error
 	ret
 
 .error:
-	;mov		rdi, rax
-	mov		byte [rax], -1
+	mov		r8, rax
 	call	___error
-	mov		byte [rax], 9
+	mov		[rax], r8
+	mov		rax, -1
 	ret
