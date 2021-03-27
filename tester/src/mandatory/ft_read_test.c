@@ -6,30 +6,25 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 17:55:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 18:42:54 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:50:42 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #define CHARS_READ 100
 
-static int	test(int fd, void *buf, size_t count, int exp_errno_val)
+static int	test(int fd, void *buf, size_t max_read, int exp_errno_val)
 {
 	int		check = 1;
 	size_t	written_bytes;
 
-	written_bytes = ft_read(fd, buf, count);
+	written_bytes = ft_read(fd, buf, max_read);
 
 	if (exp_errno_val != errno)
-	{
-		printf("errno: %d\n", errno);
 		check = 0;
-	}
-	if (count != written_bytes && errno == EXIT_SUCCESS)
-	{
-		printf("errno: %d\n", errno);
+	if (!(0 < written_bytes && written_bytes < max_read)
+			&& errno == EXIT_SUCCESS)
 		check = 0;
-	}
 
 	// Reset errno to 0
 	errno = 0;

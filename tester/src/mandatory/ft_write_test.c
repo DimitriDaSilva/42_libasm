@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:14:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 18:34:35 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:43:51 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_write_test(void)
 	check(test(4, "Hello, world!\n", strlen("Hello, world!\n"), EBADF));
 
 	int fd;
-	if ((fd = open("files/1.txt", O_WRONLY | O_APPEND | O_CREAT, 0644)) == -1)
+	if ((fd = open("files/1.txt", O_WRONLY | O_APPEND | O_CREAT, 0777)) == -1)
 	{
 		printf("Can't open\n");
 		exit(EXIT_FAILURE);

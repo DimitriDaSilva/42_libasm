@@ -6,7 +6,7 @@
 #    By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/11 09:33:15 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/27 18:40:06 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/27 18:52:38 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,9 +70,10 @@ fclean:					clean
 re:						fclean all
 
 start:					
+						@ mkdir $(PATH_FILES)
 						@ ./$(NAME)
 						@ $(RM) $(NAME)
-						@ $(RM) $(FILES)/1.txt
+						@ $(RM) $(PATH_FILES)
 
 .PHONY:					all clean fclean re start
 
