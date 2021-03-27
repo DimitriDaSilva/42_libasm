@@ -19,12 +19,18 @@ _ft_strcmp:
 	
 .cmp_chars:
 	inc		rbx
+	xor		rax, rax	; set rax to 0 before each loop
+	xor		r10, r10
+	xor		r11, r11
 	; Get the difference between the two into the al register (lower byte of rax)
-	mov		al, byte [rdi + rbx]
-	sub		al, byte [rsi + rbx]
+	mov		r10b, byte [rdi + rbx]
+	mov		r11b, byte [rsi + rbx]
+
+	mov		rax, r10
+	sub		rax, r11
 
 	xor		rcx, rcx	; Init to 0
-	xor		r8d, r8d	; Check if end of string
+	xor		r8, r8		; Init to 0
 
 	; Value that will be moved if condition met
 	; Not possible to use cmove & all cmov variants with immediates
@@ -32,15 +38,15 @@ _ft_strcmp:
 
 	; Branchless compound if statement
 	; Check if no difference between chars
-	cmp		al, 0
-	cmove	rcx, rdx	; Move 1 into rcx if al == 0
+	and		rax, rax
+	cmovz	rcx, rdx	; Move 1 into rcx if al == 0
 	; Check if end of string. No need to check rsi because previous condition
 	; checks if both are equal
 	cmp		byte [rdi + rbx], 0
-	cmove	r8, rdx		; Move 1 into r8 if dest char is NULL
+	cmovnz	r8, rdx		; Move 1 into r8 if dest char is not NULL
 	
 	and		rcx, r8		; Check if both conditions are met
 
-	cmp		rcx, 1		;
+	cmp		rcx, 1
 	je		.cmp_chars
 	ret
