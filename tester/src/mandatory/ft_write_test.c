@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:14:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 18:33:11 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:34:35 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,9 @@ static int	test(int fd, const void *buf, size_t count, int exp_errno_val)
 	written_bytes = ft_write(fd, buf, count);
 
 	if (exp_errno_val != errno)
-	{
-		printf("Fd: %d\n", fd);
-		printf("Exp: %d\n", exp_errno_val);
-		printf("Errno: %d\n", errno);
-		printf("Here\n");
 		check = 0;
-	}
 	if (count != written_bytes && errno == EXIT_SUCCESS)
-	{
-	//	printf("Here\n");
 		check = 0;
-	}
 
 	// Reset errno to 0
 	errno = 0;

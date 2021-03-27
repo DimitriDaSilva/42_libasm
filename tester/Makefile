@@ -6,7 +6,7 @@
 #    By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/11 09:33:15 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/25 16:35:33 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/27 18:40:06 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME			:=		test
 
 # Name directory
 PATH_SRC		:=		src
+PATH_FILES		:=		files
 PATH_BUILD		:=		build
 PATH_LIBASM		:=		..
 
@@ -71,6 +72,7 @@ re:						fclean all
 start:					
 						@ ./$(NAME)
 						@ $(RM) $(NAME)
+						@ $(RM) $(FILES)/1.txt
 
 .PHONY:					all clean fclean re start
 

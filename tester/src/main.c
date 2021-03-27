@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:11:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 11:13:25 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:42:41 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char *argv[])
 	ft_strcpy_test();
 	ft_strcmp_test();
 	ft_write_test();
+	ft_read_test();
 
 	return (0);
 }
