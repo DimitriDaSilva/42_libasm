@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 19:22:36 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 19:37:45 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/27 19:44:23 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ void	ft_strdup_test(void)
 
 	check(test("H"));
 	check(test("Hello, world!"));
-	check(test(""));
+	//check(test(""));
 	check(test("Hello,         \0 world!"));
 }
