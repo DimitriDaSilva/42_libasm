@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_write_test.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/16 17:11:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 11:13:25 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/03/27 11:14:28 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/03/27 11:19:24 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int	main(int argc, char *argv[])
+static int	test(int fd, const void *buf, size_t count)
 {
-	(void)argv;
-	(void)argc;
+	int	check = 1;
 
-	ft_strlen_test();
-	ft_strcpy_test();
-	ft_strcmp_test();
-	ft_write_test();
+	write(fd, buf, count);
+	ft_write(fd, buf, count);
 
-	return (0);
+	return (check);
+}
+
+void	ft_write_test(void)
+{
+	print_header("ft_write");
+
+	check(test(1, "Test\n", strlen("Test\n")));
 }
