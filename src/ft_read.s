@@ -15,8 +15,8 @@ _ft_read:
 
 .error:
 	
-	mov		r8, rax				; Saving the return value of the syscall
+	push	rax					; Saving the return value of the syscall
 	call	___error			; ___error will return an int* pointing to errno
-	mov		[rax], r8			; Changing the errno to the value returned by the sys_read
+	pop		qword [rax]			; Changing the errno to the value returned by the sys_read
 	mov		rax, -1				; Setting the return value of ft_read
 	ret
