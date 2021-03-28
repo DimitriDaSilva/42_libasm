@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:06:44 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/27 19:22:15 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/28 10:34:44 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBASM_H
 
 # include <stdlib.h>
+# include <stdio.h>
 
 /*
 ** Mandatory part

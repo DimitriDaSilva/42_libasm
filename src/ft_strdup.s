@@ -1,20 +1,20 @@
-default rel ; set RIP-relative addressing to default
+		default	rel				; set RIP-relative addressing to default
 
-extern malloc, _ft_strlen, _ft_strcpy
+		extern	_malloc, _ft_strlen, _ft_strcpy
 
-global _ft_strdup
+		global	_ft_strdup
 
 _ft_strdup:
-	; Store pointer of string into rsi to use rdi later
-	mov		rsi, rdi
+		call	_ft_strlen		; Get length of the string pointed by rdi
+		inc		rax				; Account for the NULL terminator
 
-	; Get length of string in rdi and add 1
-	call	_ft_strlen
-	inc		rax
+		push	rdi				; Save the pointer of the stirng on the stack
+		mov		rdi, rax		; Set the arg for malloc
+		call	_malloc			; Get the allocated space in rax
 
-	; Malloc space
-	mov		rdi, rax
-	call	malloc
+		pop		rsi				; Get back the pointer of the string as the 2nd arg
+		mov		rdi, rax		; Store the malloced address as the 1st arg
 
-	call	_ft_strcpy
-	ret
+		call	_ft_strcpy		; Store the string from rsi (src) into rdi (dest)
+
+		ret
