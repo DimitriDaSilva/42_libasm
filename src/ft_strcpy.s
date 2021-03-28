@@ -1,12 +1,12 @@
-	default	rel				; Set RIP-relative addressing to default
+	default	rel					; Set RIP-relative addressing to default
 
 	global	_ft_strcpy
 
 _ft_strcpy:
-	mov		rcx, -1			; Inc at the start of the loop
-	call	.cpy_chars		; Start the loop to cpy chars
+	mov		rcx, -1				; Inc at the start of the loop
+	call	.cpy_chars			; Start the loop to cpy chars
 
-	mov		rax, rdi		; Set the return value to the pointer
+	mov		rax, rdi			; Set the return value to the pointer
 	
 	ret
 

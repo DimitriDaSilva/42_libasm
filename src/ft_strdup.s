@@ -1,4 +1,4 @@
-		default	rel				; set RIP-relative addressing to default
+		default	rel				; Set RIP-relative addressing to default
 
 		extern	_malloc, _ft_strlen, _ft_strcpy
 

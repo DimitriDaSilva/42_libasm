@@ -1,50 +1,38 @@
-	default	rel				; Set RIP-relative addressing to default
+	default	rel						; Set RIP-relative addressing to default
 
 	global	_ft_strcmp
 
 _ft_strcmp:
-	; Prologue
-	push	rbx				; 
+	mov		rcx, -1					; Inc at the start of the loop
+	call	.cmp_chars				; Start the loop to cmp chars
 
-	; Loop starts at -1 but gets incremented directly so it starts at 0
-	mov		rbx, -1
-	call	.cmp_chars
-
-	; Epilogue
-	pop		rbx
-	ret
+	ret								; The value rax contains the ascii difference
 	
 .cmp_chars:
-	inc		rbx
+	inc		rcx						; rcx is the memory offset of the string
 
-	xor		rax, rax
-	xor		rcx, rcx
-	xor		r8, r8
-	xor		r9, r9
-	xor		r10, r10
+	xor		r8, r8					; Set to 0
+	xor		r9, r9					; Set to 0
+	xor		r10, r10				; Set to 0
+	xor		r11, r11				; Set to 0
 
-	; Get the difference between the two into the al register (lower byte of rax)
-	mov		r8b, byte [rdi + rbx]
-	mov		r9b, byte [rsi + rbx]
+	mov		r8b, byte [rdi + rcx]	; Store dest char
+	mov		r9b, byte [rsi + rcx]	; Store src char
 
-	mov		rax, r8
-	sub		rax, r9
+	mov		rax, r8					; Store dest char
+	sub		rax, r9					; Do diff between dest and src. If value < 0, bigger than 1 byte
 
-	; Value that will be moved if condition met
-	; Not possible to use cmove & all cmov variants with immediates
-	mov		rdx, 1
+	mov		rdx, 1					; Value that will be moved if condition met
 
 	; Branchless compound if statement
-	; Check if no difference between chars
-	and		rax, rax
-	cmovz	rcx, rdx	; Move 1 into rcx if al == 0
-	; Check if end of string. No need to check rsi because previous condition
-	; checks if both are equal
-	cmp		byte [rdi + rbx], 0
-	cmovnz	r10, rdx	; Move 1 into r8 if dest char is not NULL
+	; 1st condition: no difference between chars
+	and		rax, rax				; NOP instruction to set flags
+	cmovz	r10, rdx				; Move 1 into r10 if rax == 0
+	; 2nd condition: is not end of string
+	cmp		r8d, 0					; Check if dest char is NULL
+	cmovnz	r11, rdx				; Move 1 into r11 if dest char is not NULL
 	
-	and		rcx, r10	; Check if both conditions are met
-
-	cmp		rcx, 1
-	je		.cmp_chars
-	ret
+	and		r11, r10				; AND both condition
+	cmp		r11, 1					; If r11 == 1, means that both condition are met
+	je		.cmp_chars				; If both condition are met, continue looping
+	ret								; If not, means we found a difference or end of string
