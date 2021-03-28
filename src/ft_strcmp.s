@@ -1,10 +1,10 @@
-default rel ; set RIP-relative addressing to default
+	default	rel				; Set RIP-relative addressing to default
 
-global _ft_strcmp
+	global	_ft_strcmp
 
 _ft_strcmp:
 	; Prologue
-	push	rbx
+	push	rbx				; 
 
 	; Loop starts at -1 but gets incremented directly so it starts at 0
 	mov		rbx, -1

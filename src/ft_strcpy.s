@@ -1,26 +1,22 @@
-default rel ; set RIP-relative addressing to default
+	default	rel				; Set RIP-relative addressing to default
 
-global _ft_strcpy
+	global	_ft_strcpy
 
 _ft_strcpy:
-	; Prologue
-	push	rbx
+	mov		rcx, -1			; Inc at the start of the loop
+	call	.cpy_chars		; Start the loop to cpy chars
 
-	; Loop starts at -1 but gets incremented directly so it starts at 0
-	mov		rbx, -1
-	call	cpy_chars
-
-	; Set return value reg to the dest pointer
-	mov		rax, rdi
-
-	; Epilogue
-	pop		rbx
-	ret
+	mov		rax, rdi		; Set the return value to the pointer
 	
-cpy_chars:
-	inc		rbx
-	mov		al, [rsi + rbx]
-	mov		[rdi + rbx], al
-	cmp		byte [rdi + rbx], 0x00
-	jne		cpy_chars
 	ret
+
+.cpy_chars:
+	inc		rcx					; rcx is the memory offset of the string
+
+	mov		al, [rsi + rcx]		; Store src char in a the byte size reg al
+	mov		[rdi + rcx], al		; Write al to dest
+
+	cmp		al, 0x00			; Check if char wrote is NULL terminator
+	jne		.cpy_chars			; If not NULL continue looping
+
+	ret							; If NULL; go back to ft_strcpy

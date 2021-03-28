@@ -1,24 +1,17 @@
-default rel ; set RIP-relative addressing to default
+	default	rel				; Set RIP-relative addressing to default
 
-global _ft_strlen
+	global _ft_strlen
 
 _ft_strlen:
-	; Prologue
-	push	rbx
+	mov		rcx, -1			; Inc at the start of the loop
+	call	.count_chars	; Start the loop to count chars
 
-	; Loop starts at -1 but gets incremented directly so it starts at 0
-	mov		rbx, -1
-	call	count_chars
-
-	; Pass the counter value to rax
-	mov		rax, rbx
+	mov		rax, rcx		; Set the return value to the counter
 	
-	; Epilogue
-	pop		rbx
 	ret
 
-count_chars:
-	inc		rbx
-	cmp		byte [rdi + rbx], 0x00
-	jne		count_chars
-	ret
+.count_chars:
+	inc		rcx				; rcx is the memory offset of the string
+	cmp		byte [rdi + rcx], 0x00
+	jne		.count_chars	; If not equal to NULL, loop
+	ret						; If equal to NULL, go back to ft_strlen
