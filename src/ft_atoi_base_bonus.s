@@ -37,7 +37,7 @@ _ft_atoi_base:
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
-		lea		rdx, [rsi]			; Saving base in rdx so that has_duplicates can use rsi
+		lea		rdx, [rdi]			; Saving base in rdx so that has_duplicates can use rsi
 		mov		rcx, -1				; Start loop at -1 and inc as 1st instruction
 		call	.has_duplicates		; 1 if has duplicates, 0 if not
 		cmp		rax, 1
@@ -59,8 +59,6 @@ _ft_atoi_base:
 
 		cmp		byte [rdx + rcx + 1], 0	; Check not last non-NULL char of base
 		je		.no_duplicates			; If last non-NULL char means no duplicates found
-		mov		rax, 0x2000001
-		syscall
 
 		lea		rdi, [rdx + rcx + 1]	; 1st arg: curr position + 1
 		mov		rsi, [rdx + rcx]		; 2nd arg: curr character
