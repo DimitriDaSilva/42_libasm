@@ -16,10 +16,24 @@ _ft_atoi_base:
 		cmp			byte [rsi], 0		; Check if base is empty
 		je			.exit				; If true, exit with ret value 0
 
-		cmp			byte [rdi + 1], 0	; Check if base is one char long
+		cmp			byte [rsi + 1], 0	; Check if base is one char long
 		je			.exit				; If true, exit with ret value 0
+
+		mov			dl, '-'
+		loop		.ft_strchr
+		cmp			byte [rsi + 1], 0	; Check if base is one char long
+		je			.exit				; If true, exit with ret value 0
+
+.atoi:
+		mov			rax, 1
 
 .exit:
 		pop			rbx
 		ret		
 
+.ft_strchr:
+		cmp			byte [rsi + rcx], 0x00
+		cmove		
+		cmp			byte [rsi + rcx], dl
+		jne			.ft_strchr
+		
