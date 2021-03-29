@@ -1,9 +1,13 @@
 #!/bin/sh
 
-message="Auto-commit from $USER@$(hostname -s) on $(date)"
+# Check if message supplied
+if [-z "$1" ]; then
+	message="Auto-commit from $USER@$(hostname -s) on $(date)"
+else
+	message="$1"
+fi
+	
 GIT=`which git`
-#REPO_DIR=~/org
-#cd ${REPO_DIR}
 ${GIT} config --global user.name "dda-silv"
 ${GIT} config --global user.email dda-silv@student.42lisboa.com
 ${GIT} add --all .
