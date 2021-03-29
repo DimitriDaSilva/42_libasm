@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:06:44 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/28 10:34:44 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/29 11:52:15 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,11 @@ int 	ft_strcmp(const char *s1, const char *s2);
 ssize_t	ft_write(int fd, const void *buf, size_t count);
 ssize_t	ft_read(int fd, void *buf, size_t count);
 char	*ft_strdup(const char *s);
+
+/*
+** Mandatory part
+*/
+
+int		ft_atoi_base(char *str, char *base);
 
 #endif
