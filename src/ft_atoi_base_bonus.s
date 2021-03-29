@@ -1,6 +1,6 @@
-		default	rel				; Set RIP-relative addressing to default
+		default	rel						; Set RIP-relative addressing to default
 
-		extern	_ft_strlen, _ft_strcpy
+		extern	_ft_strlen
 
 		global	_ft_atoi_base
 
@@ -12,11 +12,17 @@ _ft_atoi_base:
 		ret
 
 .is_base_valid:
-		mov			r8b, 0		; Value that will be conditionally moved if error
-		mov			rax, 1		; Default value of ret value is TRUE
+		mov			r8, 0				; Value that will be conditionally moved if error
+		mov			rax, 1				; Default value of ret value is TRUE
 
-		cmp			rdi, 0		; Check if NULL pointer
-		cmove		al, rb8		; If true, set to NULL
+		cmp			rdi, 0				; Check if NULL pointer
+		cmove		rax, r8				; If true, set to 0
+
+		cmp			byte [rdi], 0		; Check if base is empty
+		cmove		rax, r8				; If true, set to 0
+
+		cmp			byte [rdi + 1], 0	; Check if base is one char long
+		cmove		rax, r8				; If true, set to 0
 
 		ret
 
