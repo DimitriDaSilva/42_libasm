@@ -4,6 +4,8 @@ message="Auto-commit from $USER@$(hostname -s) on $(date)"
 GIT=`which git`
 #REPO_DIR=~/org
 #cd ${REPO_DIR}
+${GIT} config --global user.name "dda-silv"
+${GIT} config --global user.email dda-silv@student.42lisboa.com
 ${GIT} add --all .
 ${GIT} commit -m "$message"
 
