@@ -38,10 +38,10 @@ _ft_atoi_base:
 		jne		.error				; If not 0, base not valid
 
 		lea		rdx, [rsi]			; Saving base in rdx so that has_duplicates can use rsi
-		xor		rcx, rcx
-		call	.has_duplicates
+		mov		rcx, -1				; Start loop at -1 and inc as 1st instruction
+		call	.has_duplicates		; 1 if has duplicates, 0 if not
 		cmp		rax, 1
-		je		.error
+		je		.error				; If has duplicates, base not valid
 
 .atoi:
 		mov		rax, 1
@@ -55,23 +55,23 @@ _ft_atoi_base:
 		jmp		.exit
 
 .has_duplicates:
-		cmp		byte [rdi + rcx], 0
-		je		.no_duplicates
-
-		cmp		byte [rdi + rcx + 1], 0
-		je		.no_duplicates
-
-		lea		rdi, [rdi + rcx + 1]
-		mov		rsi, [rdi + rcx]
-		call	_ft_strchr
-		cmp		rax, 0
 		inc		rcx
-		je		.has_duplicates
 
-.duplicates_found:
-		mov		rax, 1
+		cmp		byte [rdx + rcx + 1], 0	; Check not last non-NULL char of base
+		je		.no_duplicates			; If last non-NULL char means no duplicates found
+		mov		rax, 0x2000001
+		syscall
+
+		lea		rdi, [rdx + rcx + 1]	; 1st arg: curr position + 1
+		mov		rsi, [rdx + rcx]		; 2nd arg: curr character
+		call	_ft_strchr				; Ret 0 if char not found, ret address if found
+		cmp		rax, 0
+		je		.has_duplicates			; If 0, no char found, we continue to search
+
+.duplicate_found:
+		mov		rax, 1					; Set ret to 1
 		ret
 
 .no_duplicates:
-		mov		rax, 0
+		mov		rax, 0					; Set ret to 0
 		ret
