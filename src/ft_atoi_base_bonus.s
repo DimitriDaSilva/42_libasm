@@ -12,13 +12,11 @@ _ft_atoi_base:
 		ret
 
 .is_base_valid:
-		cmp			rdi, 0
-		jz			.error
-		mov			rax, 1
+		mov			r8b, 0		; Value that will be conditionally moved if error
+		mov			rax, 1		; Default value of ret value is TRUE
+
+		cmp			rdi, 0		; Check if NULL pointer
+		cmove		al, rb8		; If true, set to NULL
+
 		ret
 
-.error:
-		mov			rax, 0
-		pop			rip
-		ret
-	
