@@ -4,8 +4,8 @@
 
 _ft_strchr:
 		mov		rax, rdi
-		mov		rax, 0
-		jmp		.exit
+		;mov		rax, 0
+		;jmp		.exit
 
 .loop:
 		cmp		byte [rax], 0

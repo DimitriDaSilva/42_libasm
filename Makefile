@@ -6,7 +6,7 @@
 #    By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/18 18:52:53 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/28 10:39:00 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/29 18:37:59 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ ASM					:=		nasm
 AR					:=		ar -rcs
 
 # Flags - compilation Assembly
-FLAGS_COMP_ASM		:=		-f macho64
+FLAGS_COMP_ASM		:=		-g -f macho64
 
 # Flags - compilation C
 FLAG_WARNING		:=		-Wall -Wextra -Werror
