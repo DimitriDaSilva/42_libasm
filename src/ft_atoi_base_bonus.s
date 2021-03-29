@@ -55,17 +55,17 @@ _ft_atoi_base:
 		jmp		.exit
 
 .has_duplicates:
-		cmp		byte [rbx + rcx], 0
+		cmp		byte [rdi + rcx], 0
 		je		.no_duplicates
 
-		cmp		byte [rbx + rcx + 1], 0
+		cmp		byte [rdi + rcx + 1], 0
 		je		.no_duplicates
 
 		lea		rdi, [rdi + rcx + 1]
-		mov		rsi, [rsi + rcx]
+		mov		rsi, [rdi + rcx]
 		call	_ft_strchr
 		cmp		rax, 0
-		inc		rax
+		inc		rcx
 		je		.has_duplicates
 
 .duplicates_found:
