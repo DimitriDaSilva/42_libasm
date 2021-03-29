@@ -5,24 +5,21 @@
 		global	_ft_atoi_base
 
 _ft_atoi_base:
-		push		rdi
-		mov			rdi, rsi
-		call		.is_base_valid
-		pop			rdi
-		ret
+		push		rbx
 
 .is_base_valid:
-		mov			r8, 0				; Value that will be conditionally moved if error
-		mov			rax, 1				; Default value of ret value is TRUE
+		mov			rax, 0				; Default value of ret value is FALSE
 
-		cmp			rdi, 0				; Check if NULL pointer
-		cmove		rax, r8				; If true, set to 0
+		cmp			rsi, 0				; Check if NULL pointer
+		je			.exit				; If true, exit with ret value 0
 
-		cmp			byte [rdi], 0		; Check if base is empty
-		cmove		rax, r8				; If true, set to 0
+		cmp			byte [rsi], 0		; Check if base is empty
+		je			.exit				; If true, exit with ret value 0
 
 		cmp			byte [rdi + 1], 0	; Check if base is one char long
-		cmove		rax, r8				; If true, set to 0
+		je			.exit				; If true, exit with ret value 0
 
-		ret
+.exit:
+		pop			rbx
+		ret		
 
