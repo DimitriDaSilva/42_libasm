@@ -37,6 +37,10 @@ _ft_atoi_base:
 		cmp			rax, 0				; If 0, means chars where not found and base is valid
 		jne			.error				; If not 0, base not valid
 
+		call		.has_duplicates
+		cmp			rax, 1
+		je			.error
+
 .atoi:
 		mov			rax, 1
 
@@ -45,6 +49,9 @@ _ft_atoi_base:
 		ret		
 
 .error:
-		pop			rbx
 		xor			rax, rax
+		jmp			.exit
+
+.has_duplicates:
+		mov rax, 1
 		ret
