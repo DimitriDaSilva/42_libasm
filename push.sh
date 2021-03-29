@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Check if message supplied
-if [-z "$1" ]; then
+if [ -z "$1" ]; then
 	message="Auto-commit from $USER@$(hostname -s) on $(date)"
 else
 	message="$1"
