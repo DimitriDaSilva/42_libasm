@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   ft_atoi_base_test.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/24 16:01:14 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/29 12:49:41 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/03/29 12:50:26 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/03/29 12:52:35 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "main.h"
 
-# include <errno.h>
-# include <stdio.h>
-# include <string.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include "../../includes/libasm.h"
-# include "utils.h"
+void	ft_atoi_base_test(void)
+{
+	print_header("ft_atoi_base");
 
-void	ft_strlen_test(void);
-void	ft_strcpy_test(void);
-void	ft_strcmp_test(void);
-void	ft_write_test(void);
-void	ft_read_test(void);
-void	ft_strdup_test(void);
-void	ft_atoi_base_test(void);
-
-#endif
+	check(ft_atoi_base("    +++12", 0) == 0);
+}
