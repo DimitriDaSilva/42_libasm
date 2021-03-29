@@ -1,6 +1,6 @@
 		default	rel						; Set RIP-relative addressing to default
 
-		extern	_ft_strlen
+		extern	_ft_strlen, _ft_strchr
 
 		global	_ft_atoi_base
 
@@ -19,10 +19,15 @@ _ft_atoi_base:
 		cmp			byte [rsi + 1], 0	; Check if base is one char long
 		je			.exit				; If true, exit with ret value 0
 
-		mov			dl, '-'
-		loop		.ft_strchr
-		cmp			byte [rsi + 1], 0	; Check if base is one char long
-		je			.exit				; If true, exit with ret value 0
+		push		rdi					; Save str
+		mov			rdi, rsi			; Set base as 1st arg for strchr
+		push		rsi					; Save base
+		mov			rsi, byte '-'		; Set '-' as 2nd arg for strch
+		call		_ft_strchr
+		pop			rsi
+		pop			rdi
+		cmp			rax, 0				; If 0, means chars where not found and base is valid
+		jne			.exit				; If not 0, base not valid
 
 .atoi:
 		mov			rax, 1
@@ -31,9 +36,3 @@ _ft_atoi_base:
 		pop			rbx
 		ret		
 
-.ft_strchr:
-		cmp			byte [rsi + rcx], 0x00
-		cmove		
-		cmp			byte [rsi + rcx], dl
-		jne			.ft_strchr
-		

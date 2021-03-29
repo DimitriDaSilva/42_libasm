@@ -16,3 +16,20 @@ _ft_strchr:
 
 .exit:
 		ret
+
+.ft_strchr:
+		xor			r8, r8
+		xor			r9, r9
+		mov			r10, 1
+
+		cmp			byte [rsi + rcx], 0x00
+		cmovne		r8, r10
+
+		cmp			r8, 0
+		cmove		r11, 0
+
+		cmp			byte [rsi + rcx], dl
+		cmove		r9, r10
+
+		jne			.ft_strchr
+		
