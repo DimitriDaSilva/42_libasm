@@ -22,7 +22,7 @@ _ft_atoi_base:
 		push		rdi					; Save str
 		mov			rdi, rsi			; Set base as 1st arg for strchr
 		push		rsi					; Save base
-		mov			rsi, byte '-'		; Set '-' as 2nd arg for strch
+		mov			rsi, '-'			; Set '-' as 2nd arg for strch
 		call		_ft_strchr
 		pop			rsi
 		pop			rdi
