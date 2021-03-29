@@ -37,7 +37,7 @@ _ft_atoi_base:
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
-		lea		rdx, [rsi]
+		lea		rdx, [rsi]			; Saving base in rdx so that has_duplicates can use rsi
 		xor		rcx, rcx
 		call	.has_duplicates
 		cmp		rax, 1
@@ -65,7 +65,12 @@ _ft_atoi_base:
 		mov		rsi, [rsi + rcx]
 		call	_ft_strchr
 		cmp		rax, 0
-		jne		.has_duplicates
+		inc		rax
+		je		.has_duplicates
+
+.duplicates_found:
+		mov		rax, 1
+		ret
 
 .no_duplicates:
 		mov		rax, 0
