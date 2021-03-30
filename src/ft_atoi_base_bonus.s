@@ -62,13 +62,48 @@ _ft_atoi_base:
 		and		r9, r10				; Check if between 9 and 13
 		or		r8, r9				; Check if between 9 and 13 OR a space
 
-		jz		.get_sign			; If r8 is equal to zero, go to next step
+		jz		.jump_signs			; If r8 is equal to zero, go to next step
 
 		inc		rbx
 		jmp		.jump_spaces		; If r8 is not equal to 0, continue loop
 
-.get_sign:
+.jump_signs:
+		xor		r8, r8
+		xor		r9, r9
 
+		mov		r10, 1				; Value if true
+
+		cmp		byte [rbx], '+'
+		cmove	r8, r10				; If '+', set to true
+
+		cmp		byte [rbx], '-'
+		cmove	r9, r10				; If '-', set to true
+
+		or		r8, r9				; Check if '+' or '-'
+
+		jz		.convert_to_int		; If r8 == 0, go to next step
+
+		and		r9, 1				; Check if there is a '-'
+		je		.change_sign		; If so, change the sign
+
+		inc		rbx					; Increment to go to next char
+		jmp		.jump_signs			; Continue looping
+
+.change_sign:
+		neg		r11					; abs(). r11 is a value set to 1 in jump_spaces
+
+		inc		rbx					; Increment to go to next char
+		jmp		.jump_signs			; Continue looping
+
+.convert_to_int:
+		xor		rax, rax
+		xor		rsi, rsi
+
+		mov		sil, byte [rbx]
+		sub		sil, 48
+		add		rax, rsi
+		
+		mul		r11
 
 .exit:
 		pop		rbx
@@ -97,3 +132,4 @@ _ft_atoi_base:
 .no_duplicates:
 		mov		rax, 0					; Set ret to 0
 		ret
+
