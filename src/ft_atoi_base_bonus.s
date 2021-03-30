@@ -43,7 +43,7 @@ _ft_atoi_base:
 		cmp		rax, 1
 		je		.error				; If has duplicates, base not valid
 
-.find_beginning:
+.jump_spaces:
 		xor		r8, r8
 		xor		r9, r9
 		xor		r10, r10
@@ -54,14 +54,19 @@ _ft_atoi_base:
 		cmove	r8, r11
 
 		cmp		byte [rbx], 9
-		cmovge	r8, r11
+		cmovge	r9, r11
 
 		cmp		byte [rbx], 13
-		cmovge	r8, r11
+		cmovle	r10, r11
 
+		and		r9, r10
+		or		r8, r9
 
+		test	r8, 1
 		jne		.convert_to_dec
 
+		inc		rbx
+		jmp		.jump_spaces
 
 .convert_to_dec:
 
