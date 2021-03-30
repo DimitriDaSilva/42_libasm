@@ -108,8 +108,8 @@ _ft_atoi_base:
 
 		jz		.convert_to_int		; If r8 == 0, go to next step
 
-		or		r9, 1				; Check if there is a '-'
-		jnz		.change_sign		; If not zero mean true so change the sign
+		cmp		r9, 1				; Check if there is a '-'
+		je		.change_sign		; If not zero mean true so change the sign
 
 		inc		rbx					; Increment to go to next char
 		jmp		.jump_signs			; Continue looping
@@ -186,4 +186,3 @@ _ft_atoi_base:
 		neg		r10						; r10 = -r10
 		cmovl	r10, r8					; if r10 < r8, then it means r10 became negative
 		ret								; so we should revert to old value
-

@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 12:50:26 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/30 11:30:58 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/30 11:37:24 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,16 @@ void	ft_atoi_base_test(void)
 	check(ft_atoi_base("    +++12", "11") == 0);
 	check(ft_atoi_base("    +++12", "1234556789") == 0);
 
+	printf("Ret: %d\n", ft_atoi_base("+9", dec));
+	check(ft_atoi_base("    +++42", dec) == 42);
+	check(ft_atoi_base("    ++-+42", dec) == -42);
+	check(ft_atoi_base("  \t \r 42", dec) == 42);
 
-	//check(ft_atoi_base("  \t \r 42", "0123456789") == 42);
-	printf("Ret: %d\n", ft_atoi_base("    +++433", "0123456789"));
-	check(ft_atoi_base("+1", "0123456789") == 1);
-	//check(ft_atoi_base("    +++12", "0123456789abcdef") == 1);
-	//check(ft_atoi_base("    +++12", "01") == 1);
+	check(ft_atoi_base("    +++2a", hex) == 42);
+	check(ft_atoi_base("    +-++2a", hex) == -42);
+	check(ft_atoi_base("  \t \r 2a", hex) == 42);
+
+	check(ft_atoi_base("    +++1010", bin) == 10);
+	check(ft_atoi_base("    +-++1010", bin) == -10);
+	check(ft_atoi_base("  \t \r 1010", bin) == 10);
 }
