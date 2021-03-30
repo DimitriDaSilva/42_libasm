@@ -4,70 +4,86 @@
 
 		global	_ft_atoi_base
 
+; int ft_atoi_base(char *str, char *base);
+; str	-> rdi
+; base	-> rsi
+; ret	-> rax
 _ft_atoi_base:
 		push	rbx
 
 .is_base_valid:
-		mov		rax, 0				; Default value of ret value is FALSE
-
-		cmp		rsi, 0				; Check if NULL pointer
+		; Check if NULL pointer
+		cmp		rsi, 0
 		je		.error				; If true, exit with ret value 0
 
-		cmp		byte [rsi], 0		; Check if base is empty
+		; Check if base is empty
+		cmp		byte [rsi], 0
 		je		.error				; If true, exit with ret value 0
 
-		cmp		byte [rsi + 1], 0	; Check if base is one char long
+		; Check if base is one char long
+		cmp		byte [rsi + 1], 0
 		je		.error				; If true, exit with ret value 0
 
+		; Check forbidden characters with several strchr
 		lea		rbx, [rdi]			; Save str to use rdi
 		mov		rdi, rsi			; Set base as 1st arg for strchr
 
+		; Check forbidden character: '-'
 		mov		rsi, '-'			; Set '-' as 2nd arg for strch
 		call	_ft_strchr
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		; Check forbidden character: '+'
 		mov		rsi, '+'			; Set '+' as 2nd arg for strch
 		call	_ft_strchr
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		; Check forbidden character: ' '
 		mov		rsi, ' '			; Set ' ' as 2nd arg for strch
 		call	_ft_strchr
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		; Check forbidden character: '\t'
 		mov		rsi, 9				; Set '\t' as 2nd arg for strch
 		call	_ft_strchr
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		; Check forbidden character: '\n'
 		mov		rsi, 10				; Set '\n' as 2nd arg for strch
 		call	_ft_strchr
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		; Check forbidden character: '\v'
 		mov		rsi, 11				; Set '\v' as 2nd arg for strch
 		call	_ft_strchr
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		; Check forbidden character: '\f'
 		mov		rsi, 12				; Set '\f' as 2nd arg for strch
 		call	_ft_strchr
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		; Check forbidden character: '\r'
 		mov		rsi, 13				; Set '\r' as 2nd arg for strch
 		call	_ft_strchr
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		; Check if base has duplicates
 		lea		rdx, [rdi]			; Saving base in rdx so that has_duplicates can use rsi
 		mov		rcx, -1				; Start loop at -1 and inc as 1st instruction
 		call	.has_duplicates		; 1 if has duplicates, 0 if not
 		cmp		rax, 1
 		je		.error				; If has duplicates, base not valid
 
+; Parse through all the spaces in str until we reach signs or value from base
 .jump_spaces:
 		xor		r8, r8
 		xor		r9, r9
@@ -75,6 +91,7 @@ _ft_atoi_base:
 
 		mov		r11, 1				; Value if true
 
+		; if (*str == ' ' || (9 <= *str && *str <= 13))
 		cmp		byte [rbx], ' '
 		cmove	r8, r11				; If space, set to true
 
@@ -87,26 +104,30 @@ _ft_atoi_base:
 		and		r9, r10				; Check if between 9 and 13
 		or		r8, r9				; Check if between 9 and 13 OR a space
 
-		jz		.jump_signs			; If r8 is equal to zero, go to next step
+		jz		.jump_signs			; If both false, go to next label
 
 		inc		rbx
-		jmp		.jump_spaces		; If r8 is not equal to 0, continue loop
+		jmp		.jump_spaces		; Continue looping
 
+; Parse through all the signs in str while keeping tracks of the minus signs.
+; Each time a '-' is found, we NEG the reg r11 that was previously set to 1
+; in .jump_spaces
 .jump_signs:
 		xor		r8, r8
 		xor		r9, r9
 
 		mov		r10, 1				; Value if true
 
+		; if (*str == '+' || *str == '-')
 		cmp		byte [rbx], '+'
 		cmove	r8, r10				; If '+', set to true
 
 		cmp		byte [rbx], '-'
 		cmove	r9, r10				; If '-', set to true
 
-		or		r8, r9				; Check if '+' or '-'
+		or		r8, r9				; Check if '+' OR '-'
 
-		jz		.convert_to_int		; If r8 == 0, go to next step
+		jz		.convert_to_int		; If both false, go to next step
 
 		cmp		r9, 1				; Check if there is a '-'
 		je		.change_sign		; If not zero mean true so change the sign
