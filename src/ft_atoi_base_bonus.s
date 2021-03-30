@@ -96,21 +96,22 @@ _ft_atoi_base:
 		jmp		.jump_signs			; Continue looping
 
 .convert_to_int:
-		xor		rsi, rsi
+		xor		r8, r8				; Store the value to return
+		xor		rsi, rsi			; Store the char found in string to convert 
 
 		lea		rdi, [rdx]			; Move base to rdi to pass it to strlen
 		call	_ft_strlen			; Get length of base
-
-		mov		r8, rax				; Store the length of the base in r8
-
-		xor		rax, rax
+		mov		r9, rax				; Store the length of the base in r8
 
 .parse_nb:
-		mov		sil, byte [rbx]
-		sub		sil, 48
-		add		rax, rsi
-		
-		mul		r11
+		mov		sil, byte [rbx]		; Get char to convert
+
+
+		mul		r8					; rax *= base_size
+		add		rax, r10			; Add to the curr number the index of the new digit
+
+.adjust for sign:
+		mul		r11					; rax *= r11
 
 .exit:
 		pop		rbx
