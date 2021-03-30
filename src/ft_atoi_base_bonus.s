@@ -83,8 +83,8 @@ _ft_atoi_base:
 
 		jz		.convert_to_int		; If r8 == 0, go to next step
 
-		and		r9, 1				; Check if there is a '-'
-		je		.change_sign		; If so, change the sign
+		or		r9, 1				; Check if there is a '-'
+		jnz		.change_sign		; If not zero mean true so change the sign
 
 		inc		rbx					; Increment to go to next char
 		jmp		.jump_signs			; Continue looping

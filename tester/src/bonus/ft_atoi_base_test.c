@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 12:50:26 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/30 09:06:09 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/30 09:59:08 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_atoi_base_test(void)
 	check(ft_atoi_base("    +++12", "1234556789") == 0);
 
 
-	printf("Ret: %d\n", ft_atoi_base("   --42", "01"));
+	printf("Ret: %d\n", ft_atoi_base("   --++-42", "01"));
 	check(ft_atoi_base("    12", "01") == 1);
 	check(ft_atoi_base("    12", "01") == 1);
 	//check(ft_atoi_base("    +++12", "0123456789") == 1);
