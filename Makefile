@@ -6,7 +6,7 @@
 #    By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/18 18:52:53 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/29 18:37:59 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/30 12:33:17 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PATH_INC			:=		includes
 
 # List of sources
 #SRCS				:=		src/ft_strlen.s
-SRCS				:=		$(filter-out *_bonus.s, $(shell find $(PATH_SRC) -name *.s))
+SRCS				:=		$(filter-out $(wildcard $(PATH_SRC)/*_bonus.s), $(shell find $(PATH_SRC) -name *.s))
 #SRCS				:=		$(shell find $(PATH_SRC) -name *.s)
 SRCS_BONUS			:=		$(shell find $(PATH_SRC) -name *_bonus.s)
 OBJS				:=		$(SRCS:%.s=$(PATH_BUILD)/%.o)
@@ -47,6 +47,8 @@ RM					:=		rm -rf
 
 # General rules
 all:						$(NAME)
+							@echo ${SRCS}
+							@echo ${SRCS_BONUS}
 
 $(NAME):					$(OBJS)
 							$(AR) $(NAME) $(OBJS)

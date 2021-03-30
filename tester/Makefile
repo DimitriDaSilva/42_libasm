@@ -6,7 +6,7 @@
 #    By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/11 09:33:15 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/29 18:55:22 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/30 12:36:45 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ debug:					FLAGS_COMP += $(FLAG_MEM_LEAK)
 debug:					re
 
 init:
-						@ make -C $(PATH_LIBASM)
+						@ make -C $(PATH_LIBASM) bonus
 
 $(NAME):				$(OBJS)
 						@ $(CC) $(FLAGS_COMP) -o $@ $(OBJS) $(FLAGS_LINKING)

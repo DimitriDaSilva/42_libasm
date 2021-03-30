@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:06:44 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/29 18:10:43 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/30 12:26:12 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,5 @@ char	*ft_strdup(const char *s);
 */
 
 int		ft_atoi_base(char *str, char *base);
-
-/*
-** Auxiliary functions
-*/
-
-char *strchr(const char *s, int c);
 
 #endif
