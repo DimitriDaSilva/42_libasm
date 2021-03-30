@@ -96,21 +96,35 @@ _ft_atoi_base:
 		jmp		.jump_signs			; Continue looping
 
 .convert_to_int:
-		xor		r8, r8				; Store the value to return
 		xor		rsi, rsi			; Store the char found in string to convert 
 
 		lea		rdi, [rdx]			; Move base to rdi to pass it to strlen
 		call	_ft_strlen			; Get length of base
 		mov		r9, rax				; Store the length of the base in r8
 
+		xor		rax, rax
+
 .parse_nb:
+		push	rax					; Save rax because we are calling strchr next
 		mov		sil, byte [rbx]		; Get char to convert
+		call	_ft_strchr			; Get the address in base of the char to convert
+		cmp		rax, 0
+		je		.multiply_by_sign	; If addr == NULL, it means we finished the parsing
 
+		lea		r10, [rdi]			; Copy base
+		sub		r10, rax			; Substract the addr of 1st char by addr received
+		call	.ft_abs
 
-		mul		r8					; rax *= base_size
+		pop		rax					; Get back the curr value of the nb we are converting
+
+		mul		r9					; rax *= base_size
 		add		rax, r10			; Add to the curr number the index of the new digit
 
-.adjust for sign:
+		inc		rbx
+		jmp		.parse_nb
+
+.multiply_by_sign:
+		pop		rax
 		mul		r11					; rax *= r11
 
 .exit:
@@ -140,4 +154,11 @@ _ft_atoi_base:
 .no_duplicates:
 		mov		rax, 0					; Set ret to 0
 		ret
+
+; ft_abs(r10)
+.ft_abs:
+		mov		r8, r10					; Copy r10 into r10
+		neg		r10						; r10 = -r10
+		cmovl	r10, r8					; if r10 < r8, then it means r10 became negative
+		ret								; so we should revert to old value
 
