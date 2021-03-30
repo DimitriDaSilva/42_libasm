@@ -96,9 +96,16 @@ _ft_atoi_base:
 		jmp		.jump_signs			; Continue looping
 
 .convert_to_int:
-		xor		rax, rax
 		xor		rsi, rsi
 
+		lea		rdi, [rdx]			; Move base to rdi to pass it to strlen
+		call	_ft_strlen			; Get length of base
+
+		mov		r8, rax				; Store the length of the base in r8
+
+		xor		rax, rax
+
+.parse_nb:
 		mov		sil, byte [rbx]
 		sub		sil, 48
 		add		rax, rsi
