@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:11:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/29 12:49:19 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/30 15:32:01 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ int	main(int argc, char *argv[])
 	ft_read_test();
 	ft_strdup_test();
 
+	printf("\n");
 	print_header("BONUS PART");
 
 	ft_atoi_base_test();
+	ft_list_push_front_test();
+	//ft_list_size_test();
+	//ft_list_sort_test();
+	//ft_list_remove_if_test();
 
 	return (0);
 }
