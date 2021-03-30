@@ -110,8 +110,6 @@ _ft_atoi_base:
 		jmp		.jump_spaces		; Continue looping
 
 ; Parse through all the signs in str while keeping tracks of the minus signs.
-; Each time a '-' is found, we NEG the reg r11 that was previously set to 1
-; in .jump_spaces
 .jump_signs:
 		xor		r8, r8
 		xor		r9, r9
@@ -135,14 +133,17 @@ _ft_atoi_base:
 		inc		rbx					; Increment to go to next char
 		jmp		.jump_signs			; Continue looping
 
+; Each time a '-' is found, we NEG the reg r11 that was previously set to 1
+; in .jump_spaces
 .change_sign:
-		neg		r11					; abs(). r11 is a value set to 1 in jump_spaces
+		neg		r11					; r11 *= -1
 
-		inc		rbx					; Increment to go to next char
+		inc		rbx
 		jmp		.jump_signs			; Continue looping
 
+; Convert the string into the decimal
 .convert_to_int:
-		xor		rsi, rsi			; Store the char found in string to convert 
+		xor		rsi, rsi			; rsi will be used to store the char to convert 
 
 		lea		rdi, [rdx]			; Move base to rdi to pass it to strlen
 		call	_ft_strlen			; Get length of base
@@ -150,19 +151,25 @@ _ft_atoi_base:
 
 		xor		rax, rax
 
+; Actual loop that converts the string into int
+; Logic: nb = (nb * base_len) + (index of *str within base)
+; index of *str within base = - (str - ft_strchr(base, *str))
 .parse_nb:
+		; Get addr of char within base
 		push	rax					; Save rax because we are calling strchr next
 		mov		sil, byte [rbx]		; Get char to convert
 		call	_ft_strchr			; Get the address in base of the char to convert
 		cmp		rax, 0
-		je		.multiply_by_sign	; If addr == NULL, it means we finished the parsing
+		je		.multiply_by_sign	; If addr == NULL, EXIT loop
 
+		; Transform the addr of the char into an index
 		lea		r10, [rdi]			; Copy base
 		sub		r10, rax			; Substract the addr of 1st char by addr received
 		call	.ft_abs
 
 		pop		rax					; Get back the curr value of the nb we are converting
 
+		; Update number
 		mul		r9					; rax *= base_size
 		add		rax, r10			; Add to the curr number the index of the new digit
 
@@ -181,12 +188,15 @@ _ft_atoi_base:
 		xor		rax, rax
 		jmp		.exit
 
+; Check if a string has duplicate characters
 .has_duplicates:
 		inc		rcx
 
-		cmp		byte [rdx + rcx + 1], 0	; Check not last non-NULL char of base
+		; Check if last non-NULL char of base is NULL
+		cmp		byte [rdx + rcx + 1], 0	
 		je		.no_duplicates			; If last non-NULL char means no duplicates found
 
+		; if (ft_strchr(base + 1, *base) == 0)
 		lea		rdi, [rdx + rcx + 1]	; 1st arg: curr position + 1
 		mov		rsi, [rdx + rcx]		; 2nd arg: curr character
 		call	_ft_strchr				; Ret 0 if char not found, ret address if found
