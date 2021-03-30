@@ -37,6 +37,31 @@ _ft_atoi_base:
 		cmp		rax, 0				; If 0, means chars where not found and base is valid
 		jne		.error				; If not 0, base not valid
 
+		mov		rsi, 9				; Set '\t' as 2nd arg for strch
+		call	_ft_strchr
+		cmp		rax, 0				; If 0, means chars where not found and base is valid
+		jne		.error				; If not 0, base not valid
+
+		mov		rsi, 10				; Set '\n' as 2nd arg for strch
+		call	_ft_strchr
+		cmp		rax, 0				; If 0, means chars where not found and base is valid
+		jne		.error				; If not 0, base not valid
+
+		mov		rsi, 11				; Set '\v' as 2nd arg for strch
+		call	_ft_strchr
+		cmp		rax, 0				; If 0, means chars where not found and base is valid
+		jne		.error				; If not 0, base not valid
+
+		mov		rsi, 12				; Set '\f' as 2nd arg for strch
+		call	_ft_strchr
+		cmp		rax, 0				; If 0, means chars where not found and base is valid
+		jne		.error				; If not 0, base not valid
+
+		mov		rsi, 13				; Set '\r' as 2nd arg for strch
+		call	_ft_strchr
+		cmp		rax, 0				; If 0, means chars where not found and base is valid
+		jne		.error				; If not 0, base not valid
+
 		lea		rdx, [rdi]			; Saving base in rdx so that has_duplicates can use rsi
 		mov		rcx, -1				; Start loop at -1 and inc as 1st instruction
 		call	.has_duplicates		; 1 if has duplicates, 0 if not
