@@ -5,7 +5,7 @@
 		section	.data
 
 struc	s_list
-	data_long:	resd	1
+	.long:	resd	1
 endstruc
 	
 		section	.bss
