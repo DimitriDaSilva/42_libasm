@@ -51,24 +51,24 @@ _ft_atoi_base:
 		mov		r11, 1				; Value if true
 
 		cmp		byte [rbx], ' '
-		cmove	r8, r11
+		cmove	r8, r11				; If space, set to true
 
 		cmp		byte [rbx], 9
-		cmovge	r9, r11
+		cmovge	r9, r11				; If greater or equal to 9 (i.e. tab ascii value), set to true
 
 		cmp		byte [rbx], 13
-		cmovle	r10, r11
+		cmovle	r10, r11			; If less or equal to 13 (i.e. carriage return), set to true
 
-		and		r9, r10
-		or		r8, r9
+		and		r9, r10				; Check if between 9 and 13
+		or		r8, r9				; Check if between 9 and 13 OR a space
 
-		test	r8, 1
-		jne		.convert_to_dec
+		jz		.get_sign			; If r8 is equal to zero, go to next step
 
 		inc		rbx
-		jmp		.jump_spaces
+		jmp		.jump_spaces		; If r8 is not equal to 0, continue loop
 
-.convert_to_dec:
+.get_sign:
+
 
 .exit:
 		pop		rbx
