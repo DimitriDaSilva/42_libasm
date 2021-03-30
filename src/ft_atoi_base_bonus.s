@@ -43,8 +43,27 @@ _ft_atoi_base:
 		cmp		rax, 1
 		je		.error				; If has duplicates, base not valid
 
-.atoi:
-		mov		rax, 1
+.find_beginning:
+		xor		r8, r8
+		xor		r9, r9
+		xor		r10, r10
+
+		mov		r11, 1				; Value if true
+
+		cmp		byte [rbx], ' '
+		cmove	r8, r11
+
+		cmp		byte [rbx], 9
+		cmovge	r8, r11
+
+		cmp		byte [rbx], 13
+		cmovge	r8, r11
+
+
+		jne		.convert_to_dec
+
+
+.convert_to_dec:
 
 .exit:
 		pop		rbx
