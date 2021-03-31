@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:06:44 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/31 10:46:49 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/31 15:11:18 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*ft_strdup(const char *s);
 /*
 ** Bonus part
 */
+
 typedef struct s_list
 {
 	void 		*data;
@@ -41,5 +42,12 @@ void	ft_list_push_front(t_list **begin_list, void *data);
 //int		ft_list_size(t_list *begin_list);
 //void	ft_list_sort(t_list **begin_list, int (*cmp)());
 //void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
+//rdx
+
+/*
+** Others
+*/
+
+t_list	*ft_create_elem(void *data);
 
 #endif

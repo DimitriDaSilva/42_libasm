@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:01:14 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/29 12:49:41 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/31 15:21:40 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,9 @@ void	ft_write_test(void);
 void	ft_read_test(void);
 void	ft_strdup_test(void);
 void	ft_atoi_base_test(void);
+void	ft_list_push_front_test(void);
+//void	ft_list_size_test(void);
+//void	ft_list_sort_test(void);
+//void	ft_list_remove_if_test(void);
 
 #endif
