@@ -4,10 +4,15 @@ section	.data
 
 struc   mystruct
 		a:	resw	1
+			alignb	4
 		b:	resd	1
+			alignb	4
 		c:	resb	1
+			alignb	4
 		d:	resd	1
+			alignb	4
 		e:	resb	6
+			alignb	4
 endstruc
 
 oneStruct:
