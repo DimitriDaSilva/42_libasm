@@ -7,22 +7,21 @@
 
 struc	s_list
 		data:	resq	1
+				alignb	4
 		next:	resq	1
+				alignb	4
 endstruc
-
-		section	.bss
-llist:	resq	1	
 
 		section	.text
 _ft_create_elem:
 		push	rbp
 		mov		rbp, rsp
 
-		lea		rdx, [rdi]
+		push	rdi
 		mov		rdi, s_list_size
 		call	_malloc
 
-		mov		qword [rax + data], rdx
+		pop		qword [rax + data]
 		mov		qword [rax + next], 0
 
 		mov		rsp, rbp
