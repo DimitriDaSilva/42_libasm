@@ -17,12 +17,12 @@ _ft_create_elem:
 		push	rbp
 		mov		rbp, rsp
 
-		push	rdi
-		mov		rdi, s_list_size
-		call	_malloc
+		push	rdi						; Save the data
+		mov		rdi, s_list_size		; Set size of struct as first arg for malloc
+		call	_malloc					; Ret value in rax
 
-		pop		qword [rax + data]
-		mov		qword [rax + next], 0
+		pop		qword [rax + data]		; Get value of rdi in struct
+		mov		qword [rax + next], 0	; Set next as NULL
 
 		mov		rsp, rbp
 		pop		rbp
