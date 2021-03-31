@@ -9,8 +9,8 @@ fi
 	
 # Git add / commit / push
 GIT=`which git`
-${GIT} config --global user.name "dda-silv"
-${GIT} config --global user.email dda-silv@student.42lisboa.com
+${GIT} config --global user.name "DimitriDaSilva"
+${GIT} config --global user.email dimitri.gomes.da.silva@gmail.com
 ${GIT} add --all .
 ${GIT} commit -m "$message"
 

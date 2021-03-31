@@ -6,7 +6,7 @@
 #    By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/18 18:52:53 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/30 12:33:17 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/03/31 09:22:33 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,8 +47,6 @@ RM					:=		rm -rf
 
 # General rules
 all:						$(NAME)
-							@echo ${SRCS}
-							@echo ${SRCS_BONUS}
 
 $(NAME):					$(OBJS)
 							$(AR) $(NAME) $(OBJS)
