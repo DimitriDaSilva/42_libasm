@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_push_front_test.c                          :+:      :+:    :+:   */
+/*   ft_list_sort_test.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/30 15:32:29 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/31 22:48:00 by dda-silv         ###   ########.fr       */
+/*   Created: 2021/03/31 22:47:41 by dda-silv          #+#    #+#             */
+/*   Updated: 2021/03/31 22:51:14 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	ft_list_push_front_test(void)
+void	ft_list_sort_test(void)
 {
-	print_header("ft_list_push_front");
+	print_header("ft_list_size_test");
 
 	t_list	*list = 0;
 
+	ft_list_size(list);
 	ft_list_push_front(&list, (void *)1);
-	check(list->data == (void *)1 && list->next == 0);
-
+	check(ft_list_size(list) == 1);
 	ft_list_push_front(&list, (void *)2);
-	check(list->data == (void *)2 && list->next != 0 && list->next->data == (void *)1 && list->next->next == 0);
+	check(ft_list_size(list) == 2);
 
 	free(list->next);
 	free(list);

@@ -1,7 +1,7 @@
 ;void ft_list_push_front(t_list **begin_list, void *data);
 
 		global	_ft_list_push_front
-		extern	_ft_create_elem, _free
+		extern	_ft_create_elem
 		default	rel					; Set RIP-relative addressing to default
 
 		section	.data
