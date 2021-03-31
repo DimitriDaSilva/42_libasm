@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 15:32:29 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/31 16:03:41 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/31 18:49:57 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,20 @@ void	ft_list_push_front_test(void)
 	printf("Data: %s\n", list->data);
 	printf("Next: %p\n", list->next);
 	ft_list_push_front(&list, "new head");
+	printf("Data: %s\n", list->data);
+	printf("Next: %p\n", list->next);
 	printf("Data: %s\n", list->next->data);
 	printf("Next: %p\n", list->next->next);
+	ft_list_push_front(&list, "new new head");
+	printf("Data: %s\n", list->data);
+	printf("Next: %p\n", list->next);
+	printf("Data: %s\n", list->next->data);
+	printf("Next: %p\n", list->next->next);
+	printf("Data: %s\n", list->next->next->data);
+	printf("Next: %p\n", list->next->next->next);
 
+
+	free(list->next->next);
 	free(list->next);
 	free(list);
 
