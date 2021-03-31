@@ -6,46 +6,24 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 15:32:29 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/31 18:49:57 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/31 19:25:01 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-/*
-static int	test()
-{
-	int		check = 1;
-
-	return (check);
-}*/
 
 void	ft_list_push_front_test(void)
 {
 	print_header("ft_list_push_front");
 
-	t_list *list = 0;
+	t_list	*list = 0;
 
-	list = ft_create_elem("head");
-	printf("Data: %s\n", list->data);
-	printf("Next: %p\n", list->next);
-	ft_list_push_front(&list, "new head");
-	printf("Data: %s\n", list->data);
-	printf("Next: %p\n", list->next);
-	printf("Data: %s\n", list->next->data);
-	printf("Next: %p\n", list->next->next);
-	ft_list_push_front(&list, "new new head");
-	printf("Data: %s\n", list->data);
-	printf("Next: %p\n", list->next);
-	printf("Data: %s\n", list->next->data);
-	printf("Next: %p\n", list->next->next);
-	printf("Data: %s\n", list->next->next->data);
-	printf("Next: %p\n", list->next->next->next);
+	ft_list_push_front(&list, (void *)1);
+	check(list->data == (void *)1 && list->next == 0);
 
+	ft_list_push_front(&list, (void *)2);
+	check(list->data == (void *)2 && list->next != 0 && list->next->data == (void *)1 && list->next->next == 0);
 
-	free(list->next->next);
 	free(list->next);
 	free(list);
-
-
-//	check(test());
 }

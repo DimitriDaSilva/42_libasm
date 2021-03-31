@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:06:44 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/31 15:11:18 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/03/31 19:16:48 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ char	*ft_strdup(const char *s);
 ** Bonus part
 */
 
-typedef struct s_list
-{
-	void 		*data;
-	struct		s_list *next;
-} 				t_list;
 
 int		ft_atoi_base(char *str, char *base);
 void	ft_list_push_front(t_list **begin_list, void *data);

@@ -2,7 +2,7 @@
 
 		global	_ft_list_push_front
 		extern	_ft_create_elem, _free
-		default	rel						; Set RIP-relative addressing to default
+		default	rel					; Set RIP-relative addressing to default
 
 		section	.data
 
@@ -15,20 +15,21 @@ endstruc
 
 		section	.text
 _ft_list_push_front:
-		push	rdi
-		;mov		rdx, rdi				; Save begin_list (pointer of pointer)
-		;mov		r8, [rdx]
-		;mov		r8, [rdx]				; Save first node (only the pointer)
-		;lea		rcx, [rsi]				; Save data
+		; Prologue
+		push	rbp
+		mov		rbp, rsp
 
-		lea		rdi, [rsi]				; Set data as 1st arg for ft_create_elem
+		push	rdi					; Save begin_list
+
+		lea		rdi, [rsi]			; Set data as 1st arg for ft_create_elem
 		call	_ft_create_elem
-		pop		rdi
+		pop		rdi					; Restore begin_list
 
-		mov		rdx, [rdi]
-		mov		[rax + next], rdx
-		mov		[rdi], rax
+		mov		rdx, [rdi]			; Copy the value of *bing_list
+		mov		[rax + next], rdx	; Set value of next to the old head. rdx == NULL if no node in list
+		mov		[rdi], rax			; Set the new head at the beginning of the list
 
-
+		; Epilogue
+		mov		rsp, rbp
+		pop		rbp
 		ret
-
