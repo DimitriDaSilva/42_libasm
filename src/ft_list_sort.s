@@ -17,46 +17,61 @@ endstruc
 head:	resq	1
 a:		resq	1
 b:		resq	1
+slow:	resq	1
+fast:	resq	1
 
 		section	.text
 _ft_list_sort:
-		; We are going to need rdi and rsi to pass args to cmp
-		;mov		r8, [rdi]				; Stores begin_list
-		mov		r9, rsi					; Stores cmp function
+		; Prologue
+		push	rbp
+		mov		rbp, rsp
 
-		mov		rdi, [rdi]				; Set first node as 1st arg for list_size
-		call	_ft_list_size			; rax now has the size of the list
-		sub		rax, 1					; size - 1
+		mov		qword [head], rdi
 
-		xor		rcx, rcx				; Increment i - outloop
-		
-.outer_loop:
-		cmp		rax, rcx
-		je		.exit
-		xor		rdx, rdx				; Increment j - innerloop
-		
-.inner_loop:
-		mov		rdi, [rdi + data]		; Set rdi as curr data
-		mov		r11, [rdi + next]		; Set r11 as next
-		mov		rsi, [r11 + data]		; Set rsi as next data
-		call	r9						; Call int (*cmp)
-		cmp		rax, 0					; rax can
-		jl		.continue
+		; Base case: if (head == NULL || head->next == NULL)
+		mov		r10, 1							; reg with 1 to set true value
+		cmp		qword [head], 0
+		cmovz	r8, r10							; if head == NULL, set to true
+		cmp		qword [head + next], 0
+		cmovz	r9, r10							; if head == NULL, set to true
 
+		or		r8, r9
+		jnz		.exit
 
-.continue:
-		mov		r10, rax				; r10 = size
-		sub		r10, rcx				; r10 -= i
-		cmp		rdx, r10				; j < size - i - 1
-		je		.inner_loop_done		; if (j == size - i - 1) ==> exit loop
+		push	qword [head]
+		push	qword [a]
+		push	qword [b]
 
-		inc		rdx
-		jmp		.inner_loop
-
-.inner_loop_done:
-		inc		rcx
-		jmp		.outer_loop
-
-.exit:
+		call	.split_list
 		ret
 
+; Splits a list in two by having two pointers parsing the list
+; One slow and another twice as fast. Once the fast one reaches
+; the end of the list, it means the slow one reached the middle
+.split_list:
+		mov		rdx, qword [rbp + 32]				; rdx will be slow pointer
+		mov		rcx, qword [rbp + 32 + next]		; rcx will be fast pointer
+		
+.loop:
+		test	rcx, rcx						; Check if the fast pointer reached the end
+		jz		.split							; If he reached, the end ==> split
+
+		mov		rcx, [rcx + next]				; Move fast forward
+		test	rcx, rcx						; Check if the fast pointer reached the end
+		jz		.split							; If he reached, the end ==> split
+
+		mov		rdx, [rdx + next]				; Move slow forward
+		mov		rcx, [rcx + next]				; Move fast forward
+		jmp		.loop
+
+.split:
+		mov		qword [rbp + 24], rdx					; 
+		mov		qword [b], [rdx + next]
+		mov		[rdx + next], 0
+		ret
+
+.exit:
+		; Epilogue
+		mov		rsp, rbp
+		pop		rbp
+		ret
