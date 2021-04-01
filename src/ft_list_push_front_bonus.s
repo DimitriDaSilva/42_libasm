@@ -25,7 +25,7 @@ _ft_list_push_front:
 		call	_ft_create_elem
 		pop		rdi					; Restore begin_list
 
-		mov		rdx, [rdi]			; Copy the value of *bing_list
+		mov		rdx, [rdi]			; Copy the value of *begin_list
 		mov		[rax + next], rdx	; Set value of next to the old head. rdx == NULL if no node in list
 		mov		[rdi], rax			; Set the new head at the beginning of the list
 
