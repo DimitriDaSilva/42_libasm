@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 22:47:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/01 20:27:06 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/01 22:45:30 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	ft_list_sort_test(void)
 
 	t_list	*list = 0;
 
-	ft_list_sort(&list, strcmp);
+	ft_list_push_front(&list, (void *)2);
+	printf("List address: %p\n", list);
+	printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
+
 	ft_list_push_front(&list, (void *)2);
 	ft_list_sort(&list, strcmp);
 	check(list->data == (void *)2);

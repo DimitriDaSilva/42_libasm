@@ -22,23 +22,31 @@ fast:	resq	1
 
 		section	.text
 _ft_list_sort:
+		push	rdi								; We need begin_list on the stack because .recursive needs to access it through the stack
+		call	.recursive
+		pop		rdi
+		ret
+
+.recursive
 		; Prologue
 		push	rbp
 		mov		rbp, rsp
 
-		mov		qword [head], rdi
+		mov		rax, [rbp + 16]					; Get the **begin_list from stack
+		mov		rax, [rax]						; Get the rax as *begin_list
 
-		; Base case: if (head == NULL || head->next == NULL)
+		; Base case: if (head == NULL || head->next == NULL) return
 		mov		r10, 1							; reg with 1 to set true value
 		cmp		qword [head], 0
-		cmovz	r8, r10							; if head == NULL, set to true
+		cmovz	r8, r10							; If head == NULL, set to true
 		cmp		qword [head + next], 0
-		cmovz	r9, r10							; if head == NULL, set to true
+		cmovz	r9, r10							; If head->next == NULL, set to true
 
-		or		r8, r9
-		jnz		.exit
+		or		r8, r9							; OR the two the conditions
+		jnz		.exit							; If one of them is true, exit
 
-		push	qword [head]
+		; Put the addresses on the stack for split_list
+		push	rax
 		push	qword [a]
 		push	qword [b]
 
@@ -66,8 +74,8 @@ _ft_list_sort:
 
 .split:
 		mov		qword [rbp + 24], rdx					; 
-		mov		qword [b], [rdx + next]
-		mov		[rdx + next], 0
+		;mov		qword [b], [rdx + next]
+		;mov		[rdx + next], 0
 		ret
 
 .exit:
