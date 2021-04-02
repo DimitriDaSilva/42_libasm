@@ -32,7 +32,7 @@ _ft_list_sort:
 		push	rbp
 		mov		rbp, rsp
 
-		mov		rax, [rbp + 16]					; head = begin_list -> set as begin_list
+		mov		rax, [rsp + 16]					; head = begin_list -> set as begin_list
 		mov		rax, [rax]						; head = *head -> set as first node
 		;mov		rax, [rax + next]						; Get the rax as *begin_list
 		;jmp		.exit
@@ -59,7 +59,7 @@ _ft_list_sort:
 ; One slow and another twice as fast. Once the fast one reaches
 ; the end of the list, it means the slow one reached the middle
 .split_list:
-		; rbp + 32 in the stack points to rax pushed in .recursive
+		; rsp + 24 in the stack points to rax pushed in .recursive
 		mov		rdx, qword [rsp + 24]			; rdx will be slow pointer
 		mov		rcx, qword [rdx + next]			; rcx will be fast pointer
 		
@@ -76,10 +76,11 @@ _ft_list_sort:
 		jmp		.find_end_list
 
 .end_found:
-		mov		r8, [rbp + 32]					; tmp = *head
-		;mov		[rbp + 24], [rbp + 32]			; 
-		;mov		qword [b], [rdx + next]
-		;mov		[rdx + next], 0
+		mov		r8, qword [rsp + 16]			; Get ptr [a] from the stack
+		mov		[r8], [rsp + 24]				; *a = head -> a will have the first
+		mov		r9, qword [rsp + 8]				; Get ptr [b] from the stack
+		mov		[r9], [rdx + next]				; *b = slow->next
+		mov		[r9 + next], 0					; slow->next = NULL
 		ret
 
 .exit:
