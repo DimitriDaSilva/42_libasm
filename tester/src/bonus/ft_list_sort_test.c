@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 22:47:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/02 20:51:37 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/02 23:26:02 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,42 @@ void	ft_list_sort_test(void)
 
 	t_list	*list = 0;
 
-	//printf("Begin_list:   %p\n", &list);
-	printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
-	ft_list_push_front(&list, (void *)2);
-	printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
+	printf("List is empty\n");
+	printf("Running ft_list_sort... \n");
+	ft_list_sort(&list, strcmp);
+	printf("No crash!\n");
+	printf("\n");
+
+	printf("Adding a node with 1 as data... \n");
 	ft_list_push_front(&list, (void *)1);
-	printf("1st node:     %p\n", list);
-	printf("2nd node:     %p\n", list->next);
-	printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
-	//printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
+	printf("List:\n");
+	printf("1st node: data = %d & next = %p\n", (int)list->data, list->next);
+	printf("Running ft_list_sort... \n");
+	ft_list_sort(&list, strcmp);
+	printf("List:\n");
+	printf("1st node: data = %d & next = %p\n", (int)list->data, list->next);
+	printf("\n");
+
+	printf("Adding a node with 2 as data... \n");
+	ft_list_push_front(&list, (void *)2);
+	printf("List:\n");
+	printf("1st node: data = %d & next = %p\n", (int)list->data, list->next);
+	printf("2nd node: data = %d & next = %p\n", (int)list->next->data, list->next->next);
+	printf("Running ft_list_sort... \n");
+	ft_list_sort(&list, strcmp);
+	printf("1st node: data = %d & next = %p\n", (int)list->data, list->next);
+	printf("2nd node: data = %d & next = %p\n", (int)list->next->data, list->next->next);
+
 	/*
+
+	//printf("Begin_list:   %p\n", &list);
+	//printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
+	//printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
+	//ft_list_push_front(&list, (void *)1);
+	//printf("1st node:     %p\n", list);
+	//printf("2nd node:     %p\n", list->next);
+	//printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
+	//printf("Ret value:    %p\n", ft_list_sort(&list, strcmp));
 	printf("Next address: %p\n", list->next);
 	printf("Head address: %p\n", list);
 
