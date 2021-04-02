@@ -29,7 +29,7 @@ _ft_list_sort:
 		push	r14
 		push	r15
 
-		mov		rbx, rsi						; We'll need the rsi register to pass args to the cmp function
+		lea		rbx, [rsi]						; We'll need the rsi register to pass args to the cmp function
 
 		; We need to put begin_list in the stack because .recursive needs to access it through the stack
 		push	rdi
@@ -154,22 +154,47 @@ _ft_list_sort:
 		test	r14, r14						; Check if a is NULL
 		cmovz	r10, r15						; If NULL, set return value as b
 		test	r10, r10						; If return value was set then return
-		jz		.base_case						; If NULL, EXIT
+		jnz		.base_case						; If not NULL, EXIT
 
 		; Base case b == NULL
 		test	r15, r15						; Check if b is NULL
 		cmovz	r10, r14						; If NULL, set return value as a
 		test	r10, r10						; If return value was set then return
-		jz		.base_case						; If NULL, EXIT
+		jnz		.base_case						; If not NULL, EXIT
 
 		; Comparison between data to determine the order (neg, null or pos)
 		mov		rdi, [r14 + data]				; Set 1st arg of op: a->data
-		mov		rsi, [r15 + data]				; Set 1st arg of op: a->data
+		mov		rsi, [r15 + data]				; Set 2st arg of op: b->data
+
+		; Preserve scratch from getting modified by cmp
+		push	rcx
+		push	rdx
+		push	r8
+		push	r9
+		push	r10
+		push	r11
+		push	r12
+		push	r13
+		push	r14
+		push	r15
+		
 		call	rbx								; rbx holds the address of the pointer function cmp
 
-		test	rax, rax						; rax will hold the value of the cmp
-		jns		.a_goes_first					; if rax is not signed, it means that a <= b so a goes first
-		js		.b_goes_first					; if rax is signed, it means that a > b so b goes first
+		; Preserve scratch from getting modified by cmp
+		pop		r15
+		pop		r14
+		pop		r13
+		pop		r12
+		pop		r11
+		pop		r10
+		pop		r9
+		pop		r8
+		pop		rdx
+		pop		rcx
+
+		cmp		rax, 0						; rax will hold the value of the cmp
+		jg		.a_goes_first					; if rax is not signed, it means that a <= b so a goes first
+		jle		.b_goes_first					; if rax is signed, it means that a > b so b goes first
 
 .base_case:
 		ret
@@ -182,7 +207,7 @@ _ft_list_sort:
 		push	r15								; Set 2nd arg for merge sort: b
 		call	.merge_sort
 		mov		r11, r10						; r11 will act as a tmp for the return value of merge_sort
-		sub		rsp, 16							; We don't care about getting back the values of the args
+		add		rsp, 16							; We don't care about getting back the values of the args
 		pop		r10								; We do need to get back the head of the result llist
 		mov		[r10 + next], r11				; Set the return value from merge_sort as the next node of our result llist
 		ret
@@ -195,7 +220,7 @@ _ft_list_sort:
 		push	qword [r15 + next]				; Set 2nd arg for merge sort: b->next
 		call	.merge_sort
 		mov		r11, r10						; r11 will act as a tmp for the return value of merge_sort
-		sub		rsp, 16							; We don't care about getting back the values of the args
+		add		rsp, 16							; We don't care about getting back the values of the args
 		pop		r10								; We do need to get back the head of the result llist
 		mov		[r10 + next], r11				; Set the return value from merge_sort as the next node of our result llist
 		ret
