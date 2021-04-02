@@ -24,9 +24,13 @@ fast:	resq	1
 _ft_list_sort:
 		push	r12
 		push	r13
+		push	r14
+		push	r15
 		push	rdi								; We need begin_list on the stack because .recursive needs to access it through the stack
 		call	.recursive
 		pop		rdi
+		pop		r15
+		pop		r14
 		pop		r13
 		pop		r12
 		ret
@@ -56,15 +60,24 @@ _ft_list_sort:
 		pop		r12
 		pop		rax
 
-		; ------ DEBUG --------
-		mov		rax, [r12 + next]
-		jmp		.exit
-		; ------ DEBUG --------
+
 
 		; sort_list(&a, op)
 		push	r12
+		lea		r12, [rsp]
+		mov		r12, r12
+		push	r12
 		call	.recursive
 		add		rsp, 8
+		pop		r12
+
+		; ------ DEBUG --------
+		;push	r12
+		;lea		r12, [rsp]
+		;mov		r12, r12
+		mov		rax, r12
+		jmp		.exit
+		; ------ DEBUG --------
 
 		; sort_list(&b, op)
 		push	r13
@@ -104,7 +117,7 @@ _ft_list_sort:
 		; Point a to 1st half of the linked list
 		lea		r8, qword [rsp + 16]			; Get address of the pointer a from the stack
 		mov		r11, [rsp + 24]					; r11 here serves as tmp to get the head from the stack
-		mov		[r8], r11						; *a = head
+		mov		[r8], r11							; *a = head
 
 		; Point b to 2nd half of the linked list
 		lea		r9, qword [rsp + 8]				; Get ptr [b] from the stack
