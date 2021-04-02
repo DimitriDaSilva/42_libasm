@@ -166,31 +166,7 @@ _ft_list_sort:
 		mov		rdi, [r14 + data]				; Set 1st arg of op: a->data
 		mov		rsi, [r15 + data]				; Set 2st arg of op: b->data
 
-		; Preserve scratch from getting modified by cmp
-		push	rcx
-		push	rdx
-		push	r8
-		push	r9
-		push	r10
-		push	r11
-		push	r12
-		push	r13
-		push	r14
-		push	r15
-		
 		call	rbx								; rbx holds the address of the pointer function cmp
-
-		; Preserve scratch from getting modified by cmp
-		pop		r15
-		pop		r14
-		pop		r13
-		pop		r12
-		pop		r11
-		pop		r10
-		pop		r9
-		pop		r8
-		pop		rdx
-		pop		rcx
 
 		cmp		rax, 0						; rax will hold the value of the cmp
 		jg		.a_goes_first					; if rax is not signed, it means that a <= b so a goes first
