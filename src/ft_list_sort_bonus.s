@@ -86,14 +86,6 @@ _ft_list_sort:
 		add		rsp, 8							; Take off the stack the address of r13 and delete it
 		pop		r13								; Take off r13's value from the stack and put it back in r13
 
-		; ------ DEBUG --------
-		;push	r12
-		;lea		r12, [rsp]
-		;mov		r12, r12
-		;mov		rax, 7
-		;jmp		.exit
-		; ------ DEBUG --------
-
 		; merge_sort(a, b, op)
 		push	rax								; the cmp function's return value will be set in rax
 		push	r12
@@ -148,6 +140,14 @@ _ft_list_sort:
 
 		mov		r14, qword [rsp + 16]			; Get node *a from stack
 		mov		r15, qword [rsp + 8]			; Get node *b from stack
+
+		; ------ DEBUG --------
+		;push	r12
+		;lea		r12, [rsp]
+		;mov		r12, r12
+		;mov		rax, r14
+		;jmp		.exit
+		; ------ DEBUG --------
 
 		; Two base cases: either one of node a or b is NULL
 		; Base case a == NULL
