@@ -57,7 +57,7 @@ _ft_list_sort:
 		pop		rax
 
 		; ------ DEBUG --------
-		mov		rax, r13
+		mov		rax, [r12 + next]
 		jmp		.exit
 		; ------ DEBUG --------
 
@@ -112,7 +112,7 @@ _ft_list_sort:
 		mov		[r9], r11						; *b = slow->next
 
 		; Cut off the 2 halves of the linked list
-		mov		qword [r9 + next], 0			; slow->next = NULL
+		mov		qword [rdx + next], 0			; slow->next = NULL
 		ret
 
 ; node *merge_sort(node *a, node *b, int (*op)(int, int))
