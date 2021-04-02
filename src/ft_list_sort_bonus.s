@@ -22,11 +22,16 @@ fast:	resq	1
 
 		section	.text
 _ft_list_sort:
+		push	r12
+		push	r13
 		push	rdi								; We need begin_list on the stack because .recursive needs to access it through the stack
 		call	.recursive
 		pop		rdi
+		pop		r13
+		pop		r12
 		ret
 
+; void sort_list(node **headRef, int (*op)(int, int))
 .recursive:
 		; Prologue
 		push	rbp
@@ -43,34 +48,32 @@ _ft_list_sort:
 
 		; Put the addresses on the stack for split_list
 		push	rax
-		mov		r11, a
-		push	r11
-		mov		r11, b
-		push	r11
+		push	r12								; For first_half of linked list
+		push	r13								; For second_half of linked list
 
 		call	.split_list
-		add		rsp, 24						; Virtually pop the 3 values of the stack, we don't need them
+		pop		r13
+		pop		r12
+		pop		rax
+
+		; ------ DEBUG --------
+		mov		rax, r13
+		jmp		.exit
+		; ------ DEBUG --------
 
 		; sort_list(&a, op)
-		mov		r11, a
-		push	r11
-		;jmp		.exit
-
+		push	r12
 		call	.recursive
 		add		rsp, 8
 
 		; sort_list(&b, op)
-		mov		r11, b
-		push	r11
+		push	r13
 		call	.recursive
 		add		rsp, 8
 
-
 		; merge_sort(a, b, op)
-		mov		r11, a
-		push	r11
-		mov		r11, b
-		push	r11
+		push	r12
+		push	r13
 		call	.merge_sort
 		mov		[rax], r10						; *begin_list = merge_sort(a, b, op)
 
@@ -99,12 +102,12 @@ _ft_list_sort:
 
 .end_found:
 		; Point a to 1st half of the linked list
-		mov		r8, qword [rsp + 16]			; Get address of the pointer a from the stack
+		lea		r8, qword [rsp + 16]			; Get address of the pointer a from the stack
 		mov		r11, [rsp + 24]					; r11 here serves as tmp to get the head from the stack
 		mov		[r8], r11						; *a = head
 
 		; Point b to 2nd half of the linked list
-		mov		r9, qword [rsp + 8]				; Get ptr [b] from the stack
+		lea		r9, qword [rsp + 8]				; Get ptr [b] from the stack
 		mov		r11, [rdx + next]				; r11 here serves as tmp to get the next node's address
 		mov		[r9], r11						; *b = slow->next
 
@@ -121,6 +124,8 @@ _ft_list_sort:
 
 .exit:
 		; Epilogue
+		push	r13
+		push	r12
 		mov		rsp, rbp
 		pop		rbp
 		ret
