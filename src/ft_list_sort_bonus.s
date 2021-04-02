@@ -49,30 +49,35 @@ _ft_list_sort:
 		push	qword [b]
 
 		call	.split_list
-		; need to pop here
-		ret
+
+		pop		qword [b]
+		pop		qword [a]
+		pop		rax
+		jmp		.exit
 
 ; Splits a list in two by having two pointers parsing the list
 ; One slow and another twice as fast. Once the fast one reaches
 ; the end of the list, it means the slow one reached the middle
 .split_list:
-		mov		rdx, qword [rbp + 32]				; rdx will be slow pointer
-		mov		rcx, qword [rbp + 32 + next]		; rcx will be fast pointer
+		; rbp + 32 in the stack points to rax pushed in .recursive
+		mov		rdx, qword [rsp + 24]			; rdx will be slow pointer
+		mov		rcx, qword [rdx + next]			; rcx will be fast pointer
 		
-.loop:
+.find_end_list:
 		test	rcx, rcx						; Check if the fast pointer reached the end
-		jz		.split							; If he reached, the end ==> split
+		jz		.end_found						; If he reached, EXIT
 
 		mov		rcx, [rcx + next]				; Move fast forward
 		test	rcx, rcx						; Check if the fast pointer reached the end
-		jz		.split							; If he reached, the end ==> split
+		jz		.end_found						; If he reached, EXIT
 
 		mov		rdx, [rdx + next]				; Move slow forward
 		mov		rcx, [rcx + next]				; Move fast forward
-		jmp		.loop
+		jmp		.find_end_list
 
-.split:
-		mov		qword [rbp + 24], rdx					; 
+.end_found:
+		mov		r8, [rbp + 32]					; tmp = *head
+		;mov		[rbp + 24], [rbp + 32]			; 
 		;mov		qword [b], [rdx + next]
 		;mov		[rdx + next], 0
 		ret

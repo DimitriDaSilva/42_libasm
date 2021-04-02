@@ -6,7 +6,7 @@
 #    By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/11 09:33:15 by dda-silv          #+#    #+#              #
-#    Updated: 2021/04/02 10:22:45 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/04/02 10:50:41 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,17 @@ FLAGS_LINKING	:=		-L$(PATH_LIBASM) -lasm
 RM				:=		rm -rf
 
 # Functions
-all:					init $(NAME) start
+all:					init $(NAME)
+						@ mkdir -p $(PATH_FILES)
+						@ ./$(NAME)
+						@ $(RM) $(NAME)
+						@ $(RM) $(PATH_FILES)
+
+lldb:					init $(NAME)
+						@ mkdir -p $(PATH_FILES)
+						@ lldb ./$(NAME)
+						@ $(RM) $(NAME)
+						@ $(RM) $(PATH_FILES)
 
 debug:					FLAGS_COMP += $(FLAG_MEM_LEAK)
 debug:					re
@@ -68,12 +78,6 @@ fclean:					clean
 						@ $(RM) $(NAME)
 
 re:						fclean all
-
-start:					
-						@ mkdir -p $(PATH_FILES)
-						@ lldb ./$(NAME)
-						@ $(RM) $(NAME)
-						@ $(RM) $(PATH_FILES)
 
 .PHONY:					all clean fclean re start
 
