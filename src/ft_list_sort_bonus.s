@@ -27,23 +27,21 @@ _ft_list_sort:
 		pop		rdi
 		ret
 
-.recursive
+.recursive:
 		; Prologue
 		push	rbp
 		mov		rbp, rsp
 
-		mov		rax, [rbp + 16]					; Get the **begin_list from stack
-		mov		rax, [rax]						; Get the rax as *begin_list
+		mov		rax, [rbp + 16]					; head = begin_list -> set as begin_list
+		mov		rax, [rax]						; head = *head -> set as first node
+		;mov		rax, [rax + next]						; Get the rax as *begin_list
+		;jmp		.exit
 
 		; Base case: if (head == NULL || head->next == NULL) return
-		mov		r10, 1							; reg with 1 to set true value
-		cmp		qword [head], 0
-		cmovz	r8, r10							; If head == NULL, set to true
-		cmp		qword [head + next], 0
-		cmovz	r9, r10							; If head->next == NULL, set to true
-
-		or		r8, r9							; OR the two the conditions
-		jnz		.exit							; If one of them is true, exit
+		cmp		rax, 0							; if (head == NULL)
+		jz		.exit							; if true, EXIT
+		cmp		qword [rax + next], 0			; if (head->next == NULL)
+		jz		.exit							; if true, EXIT
 
 		; Put the addresses on the stack for split_list
 		push	rax
@@ -51,6 +49,7 @@ _ft_list_sort:
 		push	qword [b]
 
 		call	.split_list
+		; need to pop here
 		ret
 
 ; Splits a list in two by having two pointers parsing the list
