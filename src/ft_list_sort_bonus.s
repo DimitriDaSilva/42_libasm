@@ -22,17 +22,27 @@ fast:	resq	1
 
 		section	.text
 _ft_list_sort:
+		; Preserving non-scratch registers to use them later
+		push	rbx
 		push	r12
 		push	r13
 		push	r14
 		push	r15
-		push	rdi								; We need begin_list on the stack because .recursive needs to access it through the stack
+
+		mov		rbx, rsi						; We'll need the rsi register to pass args to the cmp function
+
+		; We need to put begin_list in the stack because .recursive needs to access it through the stack
+		push	rdi
 		call	.recursive
 		pop		rdi
+
+		; Restoring non-scratch registers
 		pop		r15
 		pop		r14
 		pop		r13
 		pop		r12
+		pop		rbx
+
 		ret
 
 ; void sort_list(node **headRef, int (*op)(int, int))
@@ -85,10 +95,14 @@ _ft_list_sort:
 		; ------ DEBUG --------
 
 		; merge_sort(a, b, op)
+		push	rax								; the cmp function's return value will be set in rax
 		push	r12
 		push	r13
 		call	.merge_sort
-		mov		[rax], r10						; *begin_list = merge_sort(a, b, op)
+		pop		r13
+		pop		r12
+		pop		rax
+		;mov		rax, r10						; *begin_list = merge_sort(a, b, op)
 
 		jmp		.exit
 
@@ -130,10 +144,61 @@ _ft_list_sort:
 
 ; node *merge_sort(node *a, node *b, int (*op)(int, int))
 .merge_sort:
+		xor		r10, r10						; This will be our return value register
+
+		mov		r14, qword [rsp + 16]			; Get node *a from stack
+		mov		r15, qword [rsp + 8]			; Get node *b from stack
+
+		; Two base cases: either one of node a or b is NULL
+		; Base case a == NULL
+		test	r14, r14						; Check if a is NULL
+		cmovz	r10, r15						; If NULL, set return value as b
+		test	r10, r10						; If return value was set then return
+		jz		.base_case						; If NULL, EXIT
+
+		; Base case b == NULL
+		test	r15, r15						; Check if b is NULL
+		cmovz	r10, r14						; If NULL, set return value as a
+		test	r10, r10						; If return value was set then return
+		jz		.base_case						; If NULL, EXIT
+
+		; Comparison between data to determine the order (neg, null or pos)
+		mov		rdi, [r14 + data]				; Set 1st arg of op: a->data
+		mov		rsi, [r15 + data]				; Set 1st arg of op: a->data
+		call	rbx								; rbx holds the address of the pointer function cmp
+
+		test	rax, rax						; rax will hold the value of the cmp
+		jns		.a_goes_first					; if rax is not signed, it means that a <= b so a goes first
+		js		.b_goes_first					; if rax is signed, it means that a > b so b goes first
+
+.base_case:
 		ret
-		mov		rax, [r9 + next]
-		jmp		.exit
-		
+
+.a_goes_first:
+		mov		r10, r14						; Set a as the head of the result llist
+		push	r10								; Put the head on the stack lest it gets overwritten
+
+		push	qword [r14 + next]				; Set 1st arg for merge sort: a->next
+		push	r15								; Set 2nd arg for merge sort: b
+		call	.merge_sort
+		mov		r11, r10						; r11 will act as a tmp for the return value of merge_sort
+		sub		rsp, 16							; We don't care about getting back the values of the args
+		pop		r10								; We do need to get back the head of the result llist
+		mov		[r10 + next], r11				; Set the return value from merge_sort as the next node of our result llist
+		ret
+
+.b_goes_first:
+		mov		r10, r15						; Set b as the head of the result llist
+		push	r10								; Put the head on the stack lest it gets overwritten
+
+		push	r14								; Set 1st arg for merge sort: a
+		push	qword [r15 + next]				; Set 2nd arg for merge sort: b->next
+		call	.merge_sort
+		mov		r11, r10						; r11 will act as a tmp for the return value of merge_sort
+		sub		rsp, 16							; We don't care about getting back the values of the args
+		pop		r10								; We do need to get back the head of the result llist
+		mov		[r10 + next], r11				; Set the return value from merge_sort as the next node of our result llist
+		ret
 
 .exit:
 		; Epilogue
