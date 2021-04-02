@@ -61,15 +61,16 @@ _ft_list_sort:
 		pop		rax
 
 		; sort_list(&a, op)
-		push	r12
-		lea		r12, [rsp]						; Getting the address of r12 in the stack
+		push	r12								; Put the node in the stack
+		lea		r12, [rsp]						; Getting the address of that node in the stack
 		push	r12								; Pushing that value in the stack for .recursive to read
 		call	.recursive
 		add		rsp, 8							; Take off the stack the address of r12 and delete it
 		pop		r12								; Take off r12's value from the stack and put it back in r12
 
 		; sort_list(&b, op)
-		lea		r13, [rsp]						; Getting the address of r13 in the stack
+		push	r13								; Put the node in the stack
+		lea		r13, [rsp]						; Getting the address of that node in the stack
 		push	r13								; Pushing that value in the stack for .recursive to read
 		call	.recursive
 		add		rsp, 8							; Take off the stack the address of r13 and delete it
@@ -79,8 +80,8 @@ _ft_list_sort:
 		;push	r12
 		;lea		r12, [rsp]
 		;mov		r12, r12
-		mov		rax, r13
-		jmp		.exit
+		;mov		rax, 7
+		;jmp		.exit
 		; ------ DEBUG --------
 
 		; merge_sort(a, b, op)
