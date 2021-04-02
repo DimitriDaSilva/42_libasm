@@ -34,8 +34,6 @@ _ft_list_sort:
 
 		mov		rax, [rsp + 16]					; head = begin_list -> set as begin_list
 		mov		rax, [rax]						; head = *head -> set as first node
-		;mov		rax, [rax + next]						; Get the rax as *begin_list
-		;jmp		.exit
 
 		; Base case: if (head == NULL || head->next == NULL) return
 		cmp		rax, 0							; if (head == NULL)
@@ -45,16 +43,41 @@ _ft_list_sort:
 
 		; Put the addresses on the stack for split_list
 		push	rax
-		push	qword [a]
-		push	qword [b]
+		mov		r11, a
+		push	r11
+		mov		r11, b
+		push	r11
 
 		call	.split_list
 
 		pop		qword [b]
 		pop		qword [a]
 		pop		rax
+
+		; sort_list(&a, op)
+		mov		r11, a
+		push	r11
+		call	.recursive
+		pop		qword [a]
+
+		; sort_list(&b, op)
+		mov		r11, b
+		push	r11
+		call	.recursive
+		pop		qword [b]
+
+
+		; merge_sort(a, b, op)
+		mov		r11, a
+		push	r11
+		mov		r11, b
+		push	r11
+		call	.merge_sort
+		mov		[rax], r10						; *begin_list = merge_sort(a, b, op)
+
 		jmp		.exit
 
+; void split_list(node *head, node **first_half, node **second_half) 
 ; Splits a list in two by having two pointers parsing the list
 ; One slow and another twice as fast. Once the fast one reaches
 ; the end of the list, it means the slow one reached the middle
@@ -76,12 +99,26 @@ _ft_list_sort:
 		jmp		.find_end_list
 
 .end_found:
-		mov		r8, qword [rsp + 16]			; Get ptr [a] from the stack
-		mov		[r8], [rsp + 24]				; *a = head -> a will have the first
+		; Point a to 1st half of the linked list
+		mov		r8, qword [rsp + 16]			; Get address of the pointer a from the stack
+		mov		r11, [rsp + 24]					; r11 here serves as tmp to get the head from the stack
+		mov		[r8], r11						; *a = head
+
+		; Point b to 2nd half of the linked list
 		mov		r9, qword [rsp + 8]				; Get ptr [b] from the stack
-		mov		[r9], [rdx + next]				; *b = slow->next
-		mov		[r9 + next], 0					; slow->next = NULL
+		mov		r11, [rdx + next]				; r11 here serves as tmp to get the next node's address
+		mov		[r9], r11						; *b = slow->next
+
+		; Cut off the 2 halves of the linked list
+		mov		qword [r9 + next], 0			; slow->next = NULL
 		ret
+
+; node *merge_sort(node *a, node *b, int (*op)(int, int))
+.merge_sort:
+		ret
+		mov		rax, [r9 + next]
+		jmp		.exit
+		
 
 .exit:
 		; Epilogue
