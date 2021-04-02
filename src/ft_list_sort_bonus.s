@@ -49,22 +49,21 @@ _ft_list_sort:
 		push	r11
 
 		call	.split_list
-
-		pop		qword [b]
-		pop		qword [a]
-		pop		rax
+		add		rsp, 24						; Virtually pop the 3 values of the stack, we don't need them
 
 		; sort_list(&a, op)
 		mov		r11, a
 		push	r11
+		;jmp		.exit
+
 		call	.recursive
-		pop		qword [a]
+		add		rsp, 8
 
 		; sort_list(&b, op)
 		mov		r11, b
 		push	r11
 		call	.recursive
-		pop		qword [b]
+		add		rsp, 8
 
 
 		; merge_sort(a, b, op)
