@@ -6,7 +6,7 @@
 #    By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/11 09:33:15 by dda-silv          #+#    #+#              #
-#    Updated: 2021/03/30 12:36:45 by dda-silv         ###   ########.fr        #
+#    Updated: 2021/04/02 10:22:45 by dda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ re:						fclean all
 
 start:					
 						@ mkdir -p $(PATH_FILES)
-						@ ./$(NAME)
+						@ lldb ./$(NAME)
 						@ $(RM) $(NAME)
 						@ $(RM) $(PATH_FILES)
 
