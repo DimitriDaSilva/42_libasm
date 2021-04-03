@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 22:47:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/03 14:49:57 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/03 16:03:43 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_list_sort_test(void)
 {
 	print_header("ft_list_sort_test");
 
-	t_list	*list = 0;
+	t_list	*list = NULL;
 
 	printf("List is empty\n");
 	printf("Begin_list: %p\n", &list);
@@ -49,7 +49,7 @@ void	ft_list_sort_test(void)
 	printf("1st node: data = %d & next = %p & addr = %p\n", (int)list->data, list->next, list);
 	printf("2nd node: data = %d & next = %p & addr = %p\n", (int)list->next->data, list->next->next, list->next);
 	printf("Running ft_list_sort... \n");
-	ft_list_sort(&list, &ascending);
+	//ft_list_sort(&list, &ascending);
 	printf("Begin_list %p\n", &list);
 	printf("1st node: data = %d & next = %p & addr = %p\n", (int)list->data, list->next, list);
 	printf("2nd node: data = %d & next = %p & addr = %p\n", (int)list->next->data, list->next->next, list->next);

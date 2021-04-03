@@ -50,7 +50,8 @@ _ft_list_sort:
 		; Base case: if (head == NULL || head->next == NULL) return
 		cmp		rax, 0							; if (head == NULL)
 		jz		.exit							; if true, EXIT
-		cmp		qword [rax + next], 0			; if (head->next == NULL)
+		mov		r11, [rax + next]				; r11 acts as a tmp to cmp rax + next value
+		cmp		r11, 0							; if (head->next == NULL)
 		jz		.exit							; if true, EXIT
 
 		; Put the addresses on the stack for split_list
@@ -113,7 +114,6 @@ _ft_list_sort:
 		; rsp + 24 in the stack points to rax pushed in .recursive
 		mov		rdx, qword [rsp + 24]			; rdx will be slow pointer
 		mov		rcx, qword [rdx + next]			; rcx will be fast pointer
-		jmp		.find_end_list
 		
 .find_end_list:
 		test	rcx, rcx						; Check if the fast pointer reached the end
