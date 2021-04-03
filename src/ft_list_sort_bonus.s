@@ -1,8 +1,8 @@
-; void ft_list_sort(t_list **begin_list, int (*cmp)());
+; void ft_list_sort(t_list **begin_list, int (*cmp)())
+; Merge sort implementation
 
 		global	_ft_list_sort
-		extern	_printf
-		default	rel						; Set RIP-relative addressing to default
+		default	rel								; Set RIP-relative addressing to default
 
 		section	.data
 
@@ -26,7 +26,7 @@ _ft_list_sort:
 
 		; We need to put begin_list in the stack because .recursive needs to access it through the stack
 		push	rdi
-		call	.recursive
+		call	.sort_list
 		pop		rdi
 
 		; Restoring non-scratch registers
@@ -38,8 +38,10 @@ _ft_list_sort:
 
 		ret
 
-; void sort_list(node **headRef, int (*op)(int, int))
-.recursive:
+; void sort_list(node **begin_list, int (*cmp)())
+; Base of the recursive calls
+; The logic is: split in two halves -> recusive call with each half -> merge two halves
+.sort_list:
 		; Prologue
 		push	rbp
 		mov		rbp, rsp
@@ -59,53 +61,31 @@ _ft_list_sort:
 		push	r12								; For first_half of linked list
 		push	r13								; For second_half of linked list
 
+		; split_list(head, &a, &b) -> splits the list in two halves
 		call	.split_list
 		pop		r13
 		pop		r12
 		pop		rax
 
-		; ------ DEBUG --------
-		;push	rdi
-		;push	rsi
-		;push	rdx
-		;lea		rdi, [msg]
-		;mov		rsi, r12
-		;mov		rdx, r13
-		;call	_printf
-		;pop		rdx
-		;pop		rsi
-		;pop		rdi
-		; ------ DEBUG --------
-
 		; Set first nodes of both lists in the stack to avoid data corruption
 		push	r12								; Put the node in the stack
 		push	r13								; Put the node in the stack
 
-		; sort_list(&a, op)
-		;push	r12								; Put the node in the stack
-		lea		r12, [rsp + 8]						; Getting the address of that node in the stack
+		; sort_list(&a, op) -> RECURSIVE CALL
+		lea		r12, [rsp + 8]					; Getting the address of that node in the stack
 		push	r12								; Pushing that value in the stack for .recursive to read
-		call	.recursive
-		add		rsp, 8							; Take off the stack the address of r12 and delete it
-		;pop		r12								; Take off r12's value from the stack and put it back in r12
+		call	.sort_list
+		add		rsp, 8							; Free r12's address from the stack
 
-		; sort_list(&b, op)
-		;push	r13								; Put the node in the stack
+		; sort_list(&b, op) -> RECURSIVE CALL
 		lea		r13, [rsp]						; Getting the address of that node in the stack
 		push	r13								; Pushing that value in the stack for .recursive to read
-		call	.recursive
-		add		rsp, 8							; Take off the stack the address of r13 and delete it
+		call	.sort_list
+		add		rsp, 8							; Free r13's address from the stack
 
-		;pop		r13								; Take off r13's value from the stack and put it back in r13
-		;pop		r12								; Take off r12's value from the stack and put it back in r12
-
-		; merge_sort(a, b, op)
-		;push	r12
-		;push	r13
-		call	.merge_sort
-		add		rsp, 16
-		;pop		r13
-		;pop		r12
+		; merge_sort(a, b, op) -> merge the two lists just formed
+		call	.merge_sort						; r12 and r13 are on the stack and rbx holds the op
+		add		rsp, 16							; Free r12 and r13 from the stack
 		mov		rax, [rsp + 16]					; Get original begin_list from stack
 		mov		[rax], r10						; *begin_list = merge_sort(a, b, op)
 
@@ -122,11 +102,11 @@ _ft_list_sort:
 		
 .find_end_list:
 		test	rcx, rcx						; Check if the fast pointer reached the end
-		jz		.end_found						; If he reached, EXIT
+		jz		.end_found						; If he reached end, EXIT
 
 		mov		rcx, [rcx + next]				; Move fast forward
 		test	rcx, rcx						; Check if the fast pointer reached the end
-		jz		.end_found						; If he reached, EXIT
+		jz		.end_found						; If he reached end, EXIT
 
 		mov		rdx, [rdx + next]				; Move slow forward
 		mov		rcx, [rcx + next]				; Move fast forward
@@ -136,7 +116,7 @@ _ft_list_sort:
 		; Point a to 1st half of the linked list
 		lea		r8, qword [rsp + 16]			; Get address of the pointer a from the stack
 		mov		r11, [rsp + 24]					; r11 here serves as tmp to get the head from the stack
-		mov		[r8], r11							; *a = head
+		mov		[r8], r11						; *a = head
 
 		; Point b to 2nd half of the linked list
 		lea		r9, qword [rsp + 8]				; Get ptr [b] from the stack
@@ -148,19 +128,12 @@ _ft_list_sort:
 		ret
 
 ; node *merge_sort(node *a, node *b, int (*op)(int, int))
+; Merge two lists based on the op function
 .merge_sort:
 		xor		r10, r10						; This will be our return value register
 
 		mov		r14, qword [rsp + 16]			; Get node *a from stack
 		mov		r15, qword [rsp + 8]			; Get node *b from stack
-
-		; ------ DEBUG --------
-		;push	r12
-		;lea		r12, [rsp]
-		;mov		r12, r12
-		;mov		rax, r14
-		;jmp		.exit
-		; ------ DEBUG --------
 
 		; Two base cases: either one of node a or b is NULL
 		; Base case a == NULL
@@ -179,12 +152,11 @@ _ft_list_sort:
 		mov		rdi, [r14 + data]				; Set 1st arg of op: a->data
 		mov		rsi, [r15 + data]				; Set 2st arg of op: b->data
 
-		xor		rax, rax
 		call	rbx								; rbx holds the address of the pointer function cmp
 
 		cmp		rax, 0							; rax will hold the value of the cmp
-		jle		.a_goes_first					; if rax is signed, it means that a > b so b goes first
-		jg		.b_goes_first					; if rax is not signed, it means that a <= b so a goes first
+		jle		.a_goes_first					; if rax is lower or equal than 0, it means that a >= b so a goes first
+		jg		.b_goes_first					; if rax is greater than 0, it means that a < b so b goes first
 
 .base_case:
 		ret
