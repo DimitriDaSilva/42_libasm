@@ -123,6 +123,7 @@ _ft_list_sort:
 		; rsp + 24 in the stack points to rax pushed in .recursive
 		mov		rdx, qword [rsp + 24]			; rdx will be slow pointer
 		mov		rcx, qword [rdx + next]			; rcx will be fast pointer
+		jmp		.find_end_list
 		
 .find_end_list:
 		test	rcx, rcx						; Check if the fast pointer reached the end
@@ -220,8 +221,6 @@ _ft_list_sort:
 
 .exit:
 		; Epilogue
-		push	r13
-		push	r12
 		mov		rsp, rbp
 		pop		rbp
 		ret
