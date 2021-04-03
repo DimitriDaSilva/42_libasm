@@ -55,7 +55,7 @@ _ft_list_sort:
 		jz		.exit							; if true, EXIT
 
 		; Put the addresses on the stack for split_list
-		push	rax
+		push	rax								; The first node of the list
 		push	r12								; For first_half of linked list
 		push	r13								; For second_half of linked list
 
@@ -77,31 +77,36 @@ _ft_list_sort:
 		;pop		rdi
 		; ------ DEBUG --------
 
-		; sort_list(&a, op)
+		; Set first nodes of both lists in the stack to avoid data corruption
 		push	r12								; Put the node in the stack
-		lea		r12, [rsp]						; Getting the address of that node in the stack
+		push	r13								; Put the node in the stack
+
+		; sort_list(&a, op)
+		;push	r12								; Put the node in the stack
+		lea		r12, [rsp + 8]						; Getting the address of that node in the stack
 		push	r12								; Pushing that value in the stack for .recursive to read
 		call	.recursive
 		add		rsp, 8							; Take off the stack the address of r12 and delete it
-		pop		r12								; Take off r12's value from the stack and put it back in r12
+		;pop		r12								; Take off r12's value from the stack and put it back in r12
 
 		; sort_list(&b, op)
-		push	r13								; Put the node in the stack
+		;push	r13								; Put the node in the stack
 		lea		r13, [rsp]						; Getting the address of that node in the stack
 		push	r13								; Pushing that value in the stack for .recursive to read
 		call	.recursive
 		add		rsp, 8							; Take off the stack the address of r13 and delete it
-		pop		r13								; Take off r13's value from the stack and put it back in r13
+
+		;pop		r13								; Take off r13's value from the stack and put it back in r13
+		;pop		r12								; Take off r12's value from the stack and put it back in r12
 
 		; merge_sort(a, b, op)
-		push	rax								; the cmp function's return value will be set in rax
-		push	r12
-		push	r13
+		;push	r12
+		;push	r13
 		call	.merge_sort
-		pop		r13
-		pop		r12
-		pop		rax
-		mov		rax, [rsp + 16]
+		add		rsp, 16
+		;pop		r13
+		;pop		r12
+		mov		rax, [rsp + 16]					; Get original begin_list from stack
 		mov		[rax], r10						; *begin_list = merge_sort(a, b, op)
 
 		jmp		.exit
@@ -177,9 +182,9 @@ _ft_list_sort:
 		xor		rax, rax
 		call	rbx								; rbx holds the address of the pointer function cmp
 
-		test	rax, rax						; rax will hold the value of the cmp
-		js		.a_goes_first					; if rax is not signed, it means that a <= b so a goes first
-		jns		.b_goes_first					; if rax is signed, it means that a > b so b goes first
+		cmp		rax, 0							; rax will hold the value of the cmp
+		jle		.a_goes_first					; if rax is signed, it means that a > b so b goes first
+		jg		.b_goes_first					; if rax is not signed, it means that a <= b so a goes first
 
 .base_case:
 		ret
