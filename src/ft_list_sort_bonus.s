@@ -13,17 +13,6 @@ struc	s_list
 				alignb	4
 endstruc
 
-msg_arg:	db	"Arg 1: %p & Arg 2: %p", 10, 0
-msg_ret:	db	"Ret: %d", 10, 0
-
-		section	.bss
-
-head:	resq	1
-a:		resq	1
-b:		resq	1
-slow:	resq	1
-fast:	resq	1
-
 		section	.text
 _ft_list_sort:
 		; Preserving non-scratch registers to use them later
@@ -111,7 +100,8 @@ _ft_list_sort:
 		pop		r13
 		pop		r12
 		pop		rax
-		;mov		rax, r10						; *begin_list = merge_sort(a, b, op)
+		mov		rax, [rsp + 16]
+		mov		[rax], r10						; *begin_list = merge_sort(a, b, op)
 
 		jmp		.exit
 
@@ -184,11 +174,12 @@ _ft_list_sort:
 		mov		rdi, [r14 + data]				; Set 1st arg of op: a->data
 		mov		rsi, [r15 + data]				; Set 2st arg of op: b->data
 
+		xor		rax, rax
 		call	rbx								; rbx holds the address of the pointer function cmp
 
-		cmp		rax, 0						; rax will hold the value of the cmp
-		jg		.a_goes_first					; if rax is not signed, it means that a <= b so a goes first
-		jle		.b_goes_first					; if rax is signed, it means that a > b so b goes first
+		test	rax, rax						; rax will hold the value of the cmp
+		js		.a_goes_first					; if rax is not signed, it means that a <= b so a goes first
+		jns		.b_goes_first					; if rax is signed, it means that a > b so b goes first
 
 .base_case:
 		ret
@@ -197,7 +188,8 @@ _ft_list_sort:
 		mov		r10, r14						; Set a as the head of the result llist
 		push	r10								; Put the head on the stack lest it gets overwritten
 
-		push	qword [r14 + next]				; Set 1st arg for merge sort: a->next
+		mov		r11, [r14 + next]				; r11 acts as a tmp
+		push	r11								; Set 1st arg for merge sort: a->next
 		push	r15								; Set 2nd arg for merge sort: b
 		call	.merge_sort
 		mov		r11, r10						; r11 will act as a tmp for the return value of merge_sort
@@ -211,7 +203,8 @@ _ft_list_sort:
 		push	r10								; Put the head on the stack lest it gets overwritten
 
 		push	r14								; Set 1st arg for merge sort: a
-		push	qword [r15 + next]				; Set 2nd arg for merge sort: b->next
+		mov		r11, [r15 + next]				; r11 acts as a tmp
+		push	r11								; Set 2nd arg for merge sort: b->next
 		call	.merge_sort
 		mov		r11, r10						; r11 will act as a tmp for the return value of merge_sort
 		add		rsp, 16							; We don't care about getting back the values of the args
