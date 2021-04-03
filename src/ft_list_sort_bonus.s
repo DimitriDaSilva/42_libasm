@@ -1,6 +1,7 @@
 ; void ft_list_sort(t_list **begin_list, int (*cmp)());
 
 		global	_ft_list_sort
+		extern	_printf
 		default	rel						; Set RIP-relative addressing to default
 
 		section	.data
@@ -11,6 +12,9 @@ struc	s_list
 		next:	resq	1
 				alignb	4
 endstruc
+
+msg_arg:	db	"Arg 1: %p & Arg 2: %p", 10, 0
+msg_ret:	db	"Ret: %d", 10, 0
 
 		section	.bss
 
@@ -69,6 +73,19 @@ _ft_list_sort:
 		pop		r13
 		pop		r12
 		pop		rax
+
+		; ------ DEBUG --------
+		;push	rdi
+		;push	rsi
+		;push	rdx
+		;lea		rdi, [msg]
+		;mov		rsi, r12
+		;mov		rdx, r13
+		;call	_printf
+		;pop		rdx
+		;pop		rsi
+		;pop		rdi
+		; ------ DEBUG --------
 
 		; sort_list(&a, op)
 		push	r12								; Put the node in the stack
