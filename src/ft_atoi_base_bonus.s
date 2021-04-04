@@ -10,6 +10,9 @@
 ; ret	-> rax
 _ft_atoi_base:
 		push	rbx
+		; Check if str in NULL
+		test	rdi, rdi
+		jz		.error
 
 .is_base_valid:
 		; Check if NULL pointer

@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 12:50:26 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/30 12:27:21 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/04 09:02:04 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_atoi_base_test(void)
 	char *dec = "0123456789";
 
 	print_header("ft_atoi_base");
+
+	check(ft_atoi_base(0, dec) == 0);
 
 	check(ft_atoi_base("    +++12", 0) == 0);
 	check(ft_atoi_base("    +++12", "") == 0);
