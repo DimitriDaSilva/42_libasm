@@ -39,7 +39,7 @@ _ft_list_remove_if:
 		push	rdi						; Push rdi on the stack to prevent data corruption
 		call	rdx						; rdx holds the address of the cmp function
 		test	rax, rax				
-		jnz		.continue				; If ret == 0, remove from list
+		jnz		.continue				; If ret != 0, continue
 
 		; Else remove node
 		; 1st step: free data
@@ -91,7 +91,7 @@ _ft_list_remove_if:
 .continue:
 		add		rsp, 8					; Free the address of data from the stack
 		lea		r8, qword [r9 + next]	; Make a copy of the address of node->next just checked
-		mov		r9, r8					; Set r9 to the next node
+		mov		r9, [r8]				; Set r9 to the next node
 		jmp		.parse_llist
 
 .exit:

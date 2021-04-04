@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 10:20:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/04 12:32:07 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/04 13:00:51 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ static int	is_equal(void *data1, void *data2)
 {
 	return ((long long)data1 == (long long)data2);
 }
+
+static int	is_divisible(void *data1, void *data2)
+{
+	return ((long long)data1 % (long long)data2 == 0);
+}
+
 
 /* FREE functions */
 
@@ -54,6 +60,31 @@ void	ft_list_remove_if_test(void)
 	ret = ft_list_remove_if(&list, (void *)1, &is_equal, &free_int);
 	check(list != NULL
 		&& list->next == NULL 				&& list->data == (void *)1);
+
+	ft_list_push_front(&list, (void *)10);
+	ret = ft_list_remove_if(&list, (void *)1, &is_equal, &free_int);
+	check(list != NULL
+		&& list->next == NULL 				&& list->data == (void *)1);
+
+	print_list(list);
+	ft_list_push_front(&list, (void *)1);
+	ft_list_push_front(&list, (void *)10);
+	print_list(list);
+	ret = ft_list_remove_if(&list, (void *)1, &is_equal, &free_int);
+	check(list != NULL
+		&& list->next == NULL 				&& list->data == (void *)1);
+	printf("Here\n");
+
+
+	ft_list_push_front(&list, (void *)10);
+	ft_list_push_front(&list, (void *)5);
+	ft_list_push_front(&list, (void *)3);
+	ft_list_push_front(&list, (void *)36);
+	print_list(list);
+	ret = ft_list_remove_if(&list, (void *)3, &is_equal, &free_int);
+	print_list(list);
+	ret = ft_list_remove_if(&list, (void *)2, &is_divisible, &free_int);
+
 
 	/*
 	printf("Data's addr: %llx\n", (unsigned long long)list->data);
