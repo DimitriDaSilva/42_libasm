@@ -34,27 +34,17 @@ _ft_list_remove_if:
 		test	r9, r9					
 		jz		.exit
 
-		; -- DEBUG --
-		mov		rax, rcx
-		jmp		.exit					; If null, return 0
-		; -- DEBUG --
 		; Compare data. rsi already holds the pointer to the data ref (2nd arg)
 		mov		rdi, qword [r9 + data]	; Set 1st arg for cmp
+		push	rdi						; Push rdi on the stack to prevent data corruption
 		call	rdx						; rdx holds the address of the cmp function
 		test	rax, rax				
 		jnz		.continue				; If ret == 0, remove from list
 
 		; Else remove node
-		; -- DEBUG --
-		mov		rax, rcx
-		jmp		.exit					; If null, return 0
-		; -- DEBUG --
 		; 1st step: free data
+		lea		rdi, [rsp]				; 1st arg is the pointer to the data that was pushed
 		call	rcx						; rcx holds the address of the free_fct
-		; -- DEBUG --
-		mov		rax, 7
-		jmp		.exit					; If null, return 0
-		; -- DEBUG --
 
 		; 2st step: change the value the begin of the list
 		mov		r11, [r9 + next]		; r11 acts as tmp for r9->next value
@@ -63,7 +53,12 @@ _ft_list_remove_if:
 		; 3rd step: free node
 		mov		rdi, r9
 		call	_free
+		jmp		.exit
 
+		; -- DEBUG --
+		mov		rax, 7
+		jmp		.exit
+		; -- DEBUG --
 .parse_list:
 		; Check if head is NULL
 		test	r9, r9					
