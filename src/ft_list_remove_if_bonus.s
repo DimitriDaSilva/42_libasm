@@ -27,11 +27,33 @@ _ft_list_remove_if:
 
 		test	r8, r8					; Check if being_list is NULL
 		jz		.exit					; If null, return 0
-		mov		r8, [r8]				; Set r8 as the first node
+		mov		r9, [r8]				; Set r9 as the first node
+
+.check_first_node:
+		; Check if head is NULL
+		test	r9, r9					
+		jz		.exit
+
+		; Compare data. rsi already holds the pointer to the data ref (2nd arg)
+		mov		rdi, qword [r9 + data]	; Set 1st arg for cmp
+		call	rdx						; rdx holds the address of the cmp function
+		test	rax, rax				
+		jnz		.continue				; If ret == 0, remove from list
+
+		; Else remove node
+		; 1st step: free data
+		call	rcx						; rcx holds the address of the free_fct
+
+		; 2st step: change the value the begin of the list
+		mov		[r8], qword [r9 + next]	; *begin_list = head->next;
+
+		; 3rd step: free node
+		mov		rdi, r9
+		call	_free
 
 .parse_list:
 		; Check if head is NULL
-		test	r8, r8					
+		test	r9, r9					
 		jz		.exit
 
 		; Compare data. rsi already holds the pointer to the data ref (2nd arg)
