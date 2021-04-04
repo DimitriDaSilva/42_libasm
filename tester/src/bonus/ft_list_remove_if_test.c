@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 10:20:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/04 11:22:43 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/04 11:25:52 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	ft_list_remove_if_test(void)
 	check(1);
 
 	ft_list_push_front(&list, (void *)1);
-	printf("Free's addr: %p\n", &free_int);
-	printf("Cmp's addr: %p\n", &is_equal);
+	printf("Free's addr: %x\n", &free_int);
+	printf("Cmp's addr: %x\n", &is_equal);
 	ret = ft_list_remove_if(&list, (void *)2, &is_equal, &free_int);
 	printf("Ret value: %d\n", (int)ret);
 	check(list == NULL);
