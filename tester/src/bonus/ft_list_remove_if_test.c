@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 10:20:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/04 11:59:04 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/04 12:32:07 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	ft_list_remove_if_test(void)
 	ret = ft_list_remove_if(&list, (void *)2, &is_equal, &free_int);
 	check(list == NULL);
 
-
+	ft_list_push_front(&list, (void *)1);
+	ret = ft_list_remove_if(&list, (void *)1, &is_equal, &free_int);
+	check(list != NULL
+		&& list->next == NULL 				&& list->data == (void *)1);
 
 	/*
 	printf("Data's addr: %llx\n", (unsigned long long)list->data);
