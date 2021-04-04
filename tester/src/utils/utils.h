@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 13:00:36 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/25 17:29:43 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/04 10:30:23 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 
 void	print_header(char *str);
 void	check(int answer);
+void 	delete_list(t_list **head);
+void 	print_list(t_list *head);
 
 #endif

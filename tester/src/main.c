@@ -6,7 +6,7 @@
 /*   By: dda-silv <dda-silv@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:11:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/01 11:05:17 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/04 10:23:27 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char *argv[])
 	ft_list_push_front_test();
 	ft_list_size_test();
 	ft_list_sort_test();
-	//ft_list_remove_if_test();
+	ft_list_remove_if_test();
 	
 	return (0);
 }

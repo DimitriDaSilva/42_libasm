@@ -19,8 +19,8 @@ endstruc
 		section	.text
 _ft_list_remove_if:
 		; Prologue
-		push	rbx
-		mov		rbx, rsp
+		push	rbp
+		mov		rbp, rsp
 
 		; Save begin_list to other scratch registers to free up rdi for the function calls
 		mov		r8, rdi					; begin_list
@@ -34,6 +34,10 @@ _ft_list_remove_if:
 		test	r9, r9					
 		jz		.exit
 
+		; -- DEBUG --
+		mov		rax, rcx
+		jmp		.exit					; If null, return 0
+		; -- DEBUG --
 		; Compare data. rsi already holds the pointer to the data ref (2nd arg)
 		mov		rdi, qword [r9 + data]	; Set 1st arg for cmp
 		call	rdx						; rdx holds the address of the cmp function
@@ -41,11 +45,20 @@ _ft_list_remove_if:
 		jnz		.continue				; If ret == 0, remove from list
 
 		; Else remove node
+		; -- DEBUG --
+		mov		rax, rcx
+		jmp		.exit					; If null, return 0
+		; -- DEBUG --
 		; 1st step: free data
 		call	rcx						; rcx holds the address of the free_fct
+		; -- DEBUG --
+		mov		rax, 7
+		jmp		.exit					; If null, return 0
+		; -- DEBUG --
 
 		; 2st step: change the value the begin of the list
-		mov		[r8], qword [r9 + next]	; *begin_list = head->next;
+		mov		r11, [r9 + next]		; r11 acts as tmp for r9->next value
+		mov		[r8], r11				; *begin_list = head->next;
 
 		; 3rd step: free node
 		mov		rdi, r9
@@ -75,6 +88,6 @@ _ft_list_remove_if:
 		jmp		.parse_list
 
 .exit:
-		mov		rsp, rbx
-		pop		rbx
+		mov		rsp, rbp
+		pop		rbp
 		ret
