@@ -6,7 +6,7 @@
 /*   By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 22:47:41 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/04 10:34:36 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/05 15:39:02 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	descending(void *d1, void *d2)
 
 void	ft_list_sort_test(void)
 {
-	print_header("ft_list_sort_test");
+	print_header("ft_list_sort");
 
 	t_list	*list = NULL;
 

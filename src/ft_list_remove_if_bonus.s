@@ -5,7 +5,7 @@
 
 		global	_ft_list_remove_if
 		extern _free
-		default	rel								; Set RIP-relative addressing to default
+		default	rel						; Set RIP-relative addressing to default
 
 		section	.data
 
@@ -28,54 +28,56 @@ _ft_list_remove_if:
 		push	r14
 		push	r15
 
-		; Save begin_list to other scratch registers to free up rdi for the function calls
-		mov		r15, rdi					; begin_list
-		mov		r12, rsi				; Store the data_ref
-		mov		r13, rdx				; Store the cmp function
-		mov		r14, rcx				; Store the free function
+		; Save args in non-scratch registers to avoid data corruption by _free
+		mov		r12, rdi				; begin_list
+		mov		r13, rsi				; Store the data_ref
+		mov		r14, rdx				; Store the cmp function
+		mov		r15, rcx				; Store the free function
 
-		test	r15, r15					; Check if being_list is NULL
-		jz		.exit					; If null, return 0
-		mov		r9, [r15]				; Set r9 as the first node
+		test	r12, r12				; Check if begin_list is NULL
+		jz		.exit					; If null, return
+		mov		r9, [r12]				; Set r9 as the first node
 
 .parse_llist:
 		; Check if head is NULL
-		test	r9, r9					
+		test	r9, r9
 		jz		.exit
 
-		; Compare data. rsi already holds the pointer to the data ref (2nd arg)
-		mov		rdi, qword [r9 + data]	; Set 1st arg for cmp
-		mov		rsi, r12				; Set 2nd arg as data_ref
-		call	r13						; r13 holds the address of the cmp function
-		test	rax, rax				
-		jnz		.continue				; If ret == 0, remove from list
+		; Compare data
+		mov		rdi, qword [r9 + data]	; Set 1st arg as node->data
+		mov		rsi, r13				; Set 2nd arg as data_ref
+		call	r14						; r14 holds the address of the cmp function
+		test	rax, rax
+		jnz		.continue				; If ret != 0, continue parsing
 
 		; Else remove node
 		; 1st step: free data
-		mov		rdi, qword [r9 + data]	; 1st arg is the pointer to the data
-		call	r14						; rcx holds the address of the free_fct
+		mov		rdi, qword [r9 + data]	; 1st arg is the node->data
+		call	r15						; r15 holds the address of the free_fct
 
 		; 2st step: change the value the previous's node->next
 		mov		r11, [r9 + next]		; r11 acts as tmp for r9->next value
-		mov		[r15], r11				; *begin_list = head->next;
+		mov		[r12], r11				; previous node's next value = head->next;
 
 		; 3rd step: free node
-		mov		rdi, r9
+		mov		rdi, r9					; 1st arg is node
 		call	_free
 
-		cmp		qword [r15], 0					; Check if NULL
+		; Check if there are still nodes to check
+		cmp		qword [r12], 0			; Check if NULL
 		je		.exit
 
-		mov		r9, [r15]
+		mov		r9, [r12]				; Set r9 as the node pointed by r12
 		jmp		.parse_llist
 
 .continue:
-		lea		r15, qword [r9 + next]	; Make a copy of the address of node->next just checked
-		mov		r9, [r15]				; Set r9 to the next node
+		lea		r12, qword [r9 + next]	; Make a copy of the address of node->next just checked
+		mov		r9, [r12]				; Set r9 to the next node
 		jmp		.parse_llist
 
 .exit:
 		; Restoring non-scratch registers
+		pop		r15
 		pop		r14
 		pop		r13
 		pop		r12
@@ -84,8 +86,3 @@ _ft_list_remove_if:
 		mov		rsp, rbp
 		pop		rbp
 		ret
-
-		; -- DEBUG --
-		mov		rax, 7
-		jmp		.exit
-		; -- DEBUG --

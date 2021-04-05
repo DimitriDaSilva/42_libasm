@@ -4,3 +4,5 @@ tester_*/
 *.o
 *.swp
 *.a
+push.sh
+clone_testers.sh
