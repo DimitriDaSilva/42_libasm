@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dds <dda-silv@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 17:55:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/03/30 15:33:06 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:03:53 by dds              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_read_test(void)
 	print_header("ft_read");
 
 	check(test(1, (void *)buf, CHARS_READ, EXIT_SUCCESS)); bzero(buf, CHARS_READ);
-	check(test(5, (void *)buf, CHARS_READ, EBADF)); bzero(buf, CHARS_READ);
+	check(test(99999, (void *)buf, CHARS_READ, EBADF)); bzero(buf, CHARS_READ);
 	check(test(-1, (void *)buf, CHARS_READ, EBADF)); bzero(buf, CHARS_READ);
 
 	if ((fd = open("files/1.txt", O_RDONLY)) == -1)
