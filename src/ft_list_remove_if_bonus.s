@@ -25,12 +25,14 @@ _ft_list_remove_if:
 		; Preversing non-scratch registers
 		push	r12
 		push	r13
+		push	r14
 
 		; Save begin_list to other scratch registers to free up rdi for the function calls
 		mov		r8, rdi					; begin_list
 		mov		r10, rsi				; set data_ref into r10 to avoid data corruption
-		mov		r12, rdx				; Store the cmp function
-		mov		r13, rcx				; Store the free function
+		mov		r12, rsi				; Store the data_ref
+		mov		r13, rdx				; Store the cmp function
+		mov		r14, rcx				; Store the free function
 
 		test	r8, r8					; Check if being_list is NULL
 		jz		.exit					; If null, return 0
@@ -43,15 +45,15 @@ _ft_list_remove_if:
 
 		; Compare data. rsi already holds the pointer to the data ref (2nd arg)
 		lea		rdi, qword [r9 + data]	; Set 1st arg for cmp
-		mov		rsi, r10				; Set 1nd arg as data_ref
-		call	r12						; rdx holds the address of the cmp function
+		mov		rsi, r12				; Set 2nd arg as data_ref
+		call	r13						; r13 holds the address of the cmp function
 		test	rax, rax				
 		jnz		.continue				; If ret != 0, continue
 
 		; Else remove node
 		; 1st step: free data
 		lea		rdi, qword [r9 + data]	; 1st arg is the pointer to the data
-		call	r13						; rcx holds the address of the free_fct
+		call	r14						; rcx holds the address of the free_fct
 
 		; 2st step: change the value of the begin of the list
 		mov		r11, [r9 + next]		; r11 acts as tmp for r9->next value
@@ -77,15 +79,15 @@ _ft_list_remove_if:
 
 		; Compare data. rsi already holds the pointer to the data ref (2nd arg)
 		lea		rdi, qword [r9 + data]	; Set 1st arg for cmp
-		mov		rsi, r10				; Set 1nd arg as data_ref
-		call	r12						; rdx holds the address of the cmp function
+		mov		rsi, r12				; Set 2nd arg as data_ref
+		call	r13						; r13 holds the address of the cmp function
 		test	rax, rax				
 		jnz		.continue				; If ret == 0, remove from list
 
 		; Else remove node
 		; 1st step: free data
 		lea		rdi, qword [r9 + data]	; 1st arg is the pointer to the data
-		call	r13						; rcx holds the address of the free_fct
+		call	r14						; rcx holds the address of the free_fct
 
 		; 2st step: change the value the previous's node->next
 		mov		r11, [r9 + next]		; r11 acts as tmp for r9->next value
@@ -102,6 +104,8 @@ _ft_list_remove_if:
 
 .exit:
 		; Restoring non-scratch registers
+		pop		r14
+		pop		r13
 		pop		r12
 
 		; Epilogue
