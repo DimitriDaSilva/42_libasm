@@ -6,7 +6,7 @@
 /*   By: dda-silv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 10:20:28 by dda-silv          #+#    #+#             */
-/*   Updated: 2021/04/05 13:37:19 by dda-silv         ###   ########.fr       */
+/*   Updated: 2021/04/05 15:04:02 by dda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ static int	is_divisible(void *data1, void *data2)
 }
 */
 
+static int	equal_trip(void *d1, void *d2)
+{
+	return (*(char *)d1 - *(char *)d2);
+}
 
 /* FREE functions */
 
@@ -41,9 +45,26 @@ static void	free_str(void *data)
 }
 */
 
+static void	remove_trip(void *s)
+{
+	*(char *)s = 'X';
+}
+
 void	ft_list_remove_if_test(void)
 {
 	print_header("ft_remove_if");
+
+	t_list	*trip = NULL;
+	char	c = 0;
+	char	ref = 0;
+
+	ft_list_push_front(&trip, &c);
+	ft_list_remove_if(&trip, &ref, &equal_trip, &remove_trip);
+	check(trip == NULL);
+	printf("trip : %p\n", trip);
+	printf("c : %c\n", c);
+	printf("ref : %c\n", ref);
+
 
 	t_list	*list = NULL;
 	void		*ret;
