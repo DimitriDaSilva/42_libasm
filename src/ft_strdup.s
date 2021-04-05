@@ -1,8 +1,8 @@
-		default	rel				; Set RIP-relative addressing to default
-
-		extern	_malloc, _ft_strlen, _ft_strcpy
+; char	*ft_strdup(const char *s)
 
 		global	_ft_strdup
+		extern	_malloc, _ft_strlen, _ft_strcpy
+		default	rel				; Set RIP-relative addressing to default
 
 _ft_strdup:
 		call	_ft_strlen		; Get length of the string pointed by rdi

@@ -1,6 +1,7 @@
-	default	rel				; Set RIP-relative addressing to default
+; size_t	ft_strlen(const char *str)
 
 	global _ft_strlen
+	default	rel				; Set RIP-relative addressing to default
 
 _ft_strlen:
 	mov		rcx, -1			; Inc at the start of the loop

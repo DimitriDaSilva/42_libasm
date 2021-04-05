@@ -1,6 +1,7 @@
-	default	rel						; Set RIP-relative addressing to default
+; int 	ft_strcmp(const char *s1, const char *s2)
 
 	global	_ft_strcmp
+	default	rel						; Set RIP-relative addressing to default
 
 _ft_strcmp:
 	mov		rcx, -1					; Inc at the start of the loop

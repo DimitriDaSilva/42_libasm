@@ -1,13 +1,9 @@
-		default	rel						; Set RIP-relative addressing to default
-
-		extern	_ft_strlen, _ft_strchr
+; int ft_atoi_base(char *str, char *base)
 
 		global	_ft_atoi_base
+		extern	_ft_strlen, _ft_strchr
+		default	rel						; Set RIP-relative addressing to default
 
-; int ft_atoi_base(char *str, char *base);
-; str	-> rdi
-; base	-> rsi
-; ret	-> rax
 _ft_atoi_base:
 		push	rbx
 		; Check if str in NULL

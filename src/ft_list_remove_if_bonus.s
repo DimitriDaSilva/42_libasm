@@ -1,14 +1,13 @@
 ;void	ft_list_remove_if(t_list **begin_list,
 ;							void *data_ref,
 ;							int (*cmp)(),
-;							void (*free_fct)(void *));
+;							void (*free_fct)(void *))
 
 		global	_ft_list_remove_if
-		extern _free
+		extern	_free
 		default	rel						; Set RIP-relative addressing to default
 
 		section	.data
-
 struc	s_list
 		data:	resq	1
 				alignb	4

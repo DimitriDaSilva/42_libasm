@@ -1,10 +1,9 @@
-;int ft_list_size(t_list *begin_list);
+;int ft_list_size(t_list *begin_list)
 
 		global	_ft_list_size
 		default	rel						; Set RIP-relative addressing to default
 
 		section	.data
-
 struc	s_list
 		data:	resq	1
 				alignb	4

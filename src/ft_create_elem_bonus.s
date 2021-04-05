@@ -1,10 +1,10 @@
-; t_list *ft_create_elem(void *data);
+; t_list *ft_create_elem(void *data)
+
 		global	_ft_create_elem
 		extern	_malloc
 		default	rel						; Set RIP-relative addressing to default
 
 		section	.data
-
 struc	s_list
 		data:	resq	1
 				alignb	4

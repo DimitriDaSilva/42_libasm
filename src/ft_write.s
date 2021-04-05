@@ -1,8 +1,8 @@
-	default	rel					; Set RIP-relative addressing to default
-
-	extern	___error
+; ssize_t	ft_write(int fd, const void *buf, size_t count)
 
 	global	_ft_write
+	extern	___error
+	default	rel					; Set RIP-relative addressing to default
 
 _ft_write:
 	; Write syscall. Args are set on rdi, rsi and rdx (C calling convetion)

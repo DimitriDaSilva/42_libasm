@@ -5,7 +5,6 @@
 		default	rel								; Set RIP-relative addressing to default
 
 		section	.data
-
 struc	s_list
 		data:	resq	1
 				alignb	4

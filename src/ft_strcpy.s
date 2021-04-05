@@ -1,6 +1,7 @@
-	default	rel					; Set RIP-relative addressing to default
+; char 	*ft_strcpy(char *restrict dest, const char *src)
 
 	global	_ft_strcpy
+	default	rel					; Set RIP-relative addressing to default
 
 _ft_strcpy:
 	mov		rcx, -1				; Inc at the start of the loop

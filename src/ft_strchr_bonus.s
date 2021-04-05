@@ -1,6 +1,7 @@
-		default	rel						; Set RIP-relative addressing to default
+; char	*ft_strchr(const char *s, int c)
 
 		global	_ft_strchr
+		default	rel						; Set RIP-relative addressing to default
 
 ; char *ft_strchr(char *str, char to_find)
 ; str		->	rdi
