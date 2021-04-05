@@ -6,3 +6,4 @@ tester_*/
 *.a
 push.sh
 clone_testers.sh
+sandbox/
