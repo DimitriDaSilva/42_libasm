@@ -38,40 +38,6 @@ _ft_list_remove_if:
 		jz		.exit					; If null, return 0
 		mov		r9, [r8]				; Set r9 as the first node
 
-.check_first_node:
-		; Check if head is NULL
-		test	r9, r9					
-		jz		.exit
-
-		; Compare data. rsi already holds the pointer to the data ref (2nd arg)
-		lea		rdi, qword [r9 + data]	; Set 1st arg for cmp
-		mov		rsi, r12				; Set 2nd arg as data_ref
-		call	r13						; r13 holds the address of the cmp function
-		test	rax, rax				
-		jnz		.continue				; If ret != 0, continue
-
-		; Else remove node
-		; 1st step: free data
-		lea		rdi, qword [r9 + data]	; 1st arg is the pointer to the data
-		call	r14						; rcx holds the address of the free_fct
-
-		; 2st step: change the value of the begin of the list
-		mov		r11, [r9 + next]		; r11 acts as tmp for r9->next value
-		mov		[r8], r11				; *begin_list = head->next;
-		push	r11						; Push head->next to avoid r8 being overwritten by free
-
-		; 3rd step: free node
-		mov		rdi, r9
-		call	_free
-
-		; Prepare to continue
-		pop		r8						; Get head->next from the stack
-		test	r8, r8					; Check if NULL
-		jz		.exit
-
-		mov		r9, r8
-		jmp		.continue
-
 .parse_llist:
 		; Check if head is NULL
 		test	r9, r9					
@@ -92,10 +58,18 @@ _ft_list_remove_if:
 		; 2st step: change the value the previous's node->next
 		mov		r11, [r9 + next]		; r11 acts as tmp for r9->next value
 		mov		[r8], r11				; *begin_list = head->next;
+		push	r8
 
 		; 3rd step: free node
 		mov		rdi, r9
 		call	_free
+
+		pop		r8
+		cmp		qword [r8], 0					; Check if NULL
+		je		.exit
+
+		mov		r9, [r8]
+		jmp		.parse_llist
 
 .continue:
 		lea		r8, qword [r9 + next]	; Make a copy of the address of node->next just checked
