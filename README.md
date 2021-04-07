@@ -1,4 +1,4 @@
-# 42Lisbon_lvl_03_libasm
+# 42Lisboa_libasm
 The aim of this project is to get familiar with Assembly language, more specifically, 64 bits ASM, Intel syntax compiled with nasm.
 
 # Resources
